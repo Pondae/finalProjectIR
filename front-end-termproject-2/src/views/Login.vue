@@ -1,0 +1,66 @@
+<template>
+  <br />
+  <br />
+  <br />
+  <div class="container">
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4">
+        <form>
+          <h2>Login</h2>
+          <br />
+          <div class="form-group">
+            <label for="exampleInputPassword1">Username:</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="input username"
+            />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password:</label>
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+              placeholder="input password"
+            />
+          </div>
+          <button type="submit" class="btn btn-light">Submit</button>
+        </form>
+      </div>
+      <div class="col-4"></div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Searchlist",
+  components: {},
+  data() {
+    return {};
+  },
+
+  methods: {},
+  created() {},
+};
+</script>
+
+<style scoped>
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+.container {
+  margin-top: 5%;
+  /* top right bottom left */
+  color: black;
+  padding: 2% 70px 70px 100px;
+  background-color: rgb(196, 198, 230);
+  border: 2px solid black;
+  border-radius: 25px;
+  height: 100%;
+}
+</style>
