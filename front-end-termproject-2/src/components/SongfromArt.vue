@@ -11,9 +11,8 @@
       <div class="card-body">
         <span>
           <h5 class="card-title"></h5>
-           <h4>SongName:</h4>
+          <h4>SongName:</h4>
           <h4 class="card-text">
-            
             {{ dataArtist.Songname }}
           </h4>
         </span>

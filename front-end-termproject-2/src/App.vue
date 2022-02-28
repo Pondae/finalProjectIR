@@ -7,13 +7,10 @@
       <h5 id="AS">Search Vector</h5>
     </router-link>
   </nav>
-  <br />
+
   <div>
     <router-view />
   </div>
-  <br />
-  <br />
-  <br />
 </template>
 
 <script>
@@ -31,7 +28,15 @@ export default {};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: rgb(111, 156, 223);
+  background-image: url("../src/assets/background.png");
+  height: 100%;
+  margin: 0;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
 }
 
 .navbar {

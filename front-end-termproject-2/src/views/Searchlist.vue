@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-4">
         <form @submit.prevent="searchTFIDF">
-          <h2>Search TF-IDF</h2>
+          <h2>Search Recipe</h2>
           <br />
           <div class="form-group">
             <label for="exampleInputPassword1">Qurey:</label>
@@ -18,7 +18,7 @@
               placeholder="TF-IDF input"
             />
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-light">Submit</button>
         </form>
       </div>
       <div class="col-4">
@@ -34,7 +34,7 @@
               placeholder="TF input"
             />
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-light">Submit</button>
         </form>
       </div>
       <div class="col-4">
@@ -50,7 +50,7 @@
               placeholder="BM25 input"
             />
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-light">Submit</button>
         </form>
       </div>
     </div>
@@ -58,7 +58,6 @@
   <div>
     <br />
     <h3>THIS IS TOP 10 RANK</h3>
-    <hr />
     <div v-if="queryTFIDF">
       <h4 id="TFIDF">TFIDF</h4>
       <SearchTFIDF
@@ -140,28 +139,25 @@ export default {
 #Searchresult {
   /* margin: 2%; */
 }
-.btn-add-color {
-  background-color: #2b6bcc;
-  color: white;
-  font-size: 16px;
-  padding: 15px;
-  border-radius: 25px;
-  border: 0;
-  cursor: pointer;
-}
+
 .col-4 {
-  background-color: rgb(111, 156, 223);
 }
 .container {
   padding-top: 2%;
 }
-#TFIDF{
+#TFIDF {
   color: white;
 }
-#TF{
+#TF {
   color: white;
 }
-#BM25{
+#BM25 {
+  color: white;
+}
+h2 {
+  color: white;
+}
+h1 {
   color: white;
 }
 </style>
