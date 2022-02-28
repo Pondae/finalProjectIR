@@ -26,7 +26,7 @@
               placeholder="input password"
             />
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-light">Submit</button>
         </form>
       </div>
       <div class="col-4"></div>
@@ -58,7 +58,7 @@ html {
   /* top right bottom left */
   color: black;
   padding: 2% 70px 70px 100px;
-  background-color: rgb(179, 209, 235);
+  background-color: rgb(196, 198, 230);
   border: 2px solid black;
   border-radius: 25px;
   height: 100%;

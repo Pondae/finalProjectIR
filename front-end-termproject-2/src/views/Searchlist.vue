@@ -3,61 +3,57 @@
   <h1>Search List</h1>
   <hr />
   <br />
-  <div class="container">
+  <div class="container-fuild">
     <div class="row">
-      <div class="col-4">
+      <div class="col-6">
         <form @submit.prevent="searchTFIDF">
           <h2>Search Recipe</h2>
           <br />
           <div class="form-group">
             <label for="exampleInputPassword1">Qurey:</label>
-            <input
-              class="form-control"
-              type="text"
-              v-model="queryTFIDF"
-              placeholder="TF-IDF input"
-            />
+            <div class="row">
+              <div class="col-3"></div>
+              <div class="col-6">
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model="queryTF"
+                  placeholder="Recipe input"
+                />
+              </div>
+              <div class="col-3"></div>
+            </div>
           </div>
           <button type="submit" class="btn btn-light">Submit</button>
         </form>
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <form @submit.prevent="searchTF">
-          <h2>Search TF</h2>
+          <h2>Search ingredients</h2>
           <br />
           <div class="form-group">
             <label for="exampleInputPassword1">Qurey:</label>
-            <input
-              class="form-control"
-              type="text"
-              v-model="queryTF"
-              placeholder="TF input"
-            />
-          </div>
-          <button type="submit" class="btn btn-light">Submit</button>
-        </form>
-      </div>
-      <div class="col-4">
-        <form @submit.prevent="bm25">
-          <h2>Search BM25</h2>
-          <br />
-          <div class="form-group">
-            <label for="exampleInputPassword1">Qurey:</label>
-            <input
-              class="form-control"
-              type="text"
-              v-model="querybm25"
-              placeholder="BM25 input"
-            />
+            <div class="row">
+              <div class="col-3"></div>
+              <div class="col-6">
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model="queryTF"
+                  placeholder="Ingredients input"
+                />
+              </div>
+              <div class="col-3"></div>
+            </div>
           </div>
           <button type="submit" class="btn btn-light">Submit</button>
         </form>
       </div>
     </div>
+    <br />
   </div>
   <div>
     <br />
-    <h3>THIS IS TOP 10 RANK</h3>
     <div v-if="queryTFIDF">
       <h4 id="TFIDF">TFIDF</h4>
       <SearchTFIDF
@@ -140,10 +136,15 @@ export default {
   /* margin: 2%; */
 }
 
-.col-4 {
+.col-6 {
+  padding: 2%;
 }
-.container {
+.container-fuild {
   padding-top: 2%;
+  background-color: rgb(196, 198, 230);
+  border: 2px solid black;
+  border-radius: 20px;
+  margin: 2%;
 }
 #TFIDF {
   color: white;
@@ -154,9 +155,7 @@ export default {
 #BM25 {
   color: white;
 }
-h2 {
-  color: white;
-}
+
 h1 {
   color: white;
 }

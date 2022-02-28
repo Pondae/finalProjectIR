@@ -1,11 +1,15 @@
 <template>
   <nav class="navbar">
-    <router-link to="/searchAS" class="nav-link">
-      <h5 id="AS">Search Artist & Search Songname</h5>
-    </router-link>
     <router-link to="/" class="nav-link">
-      <h5 id="AS">Search Vector</h5>
+      <h5 id="meal">Search Meal</h5>
     </router-link>
+    <div class="columnn">
+      <span style="font-weight: bold; margin-right: 2%">
+        currentUser.username
+      </span>
+
+      <button class="btn btn-logout-color" @click="logout" style="color: white;">Logout</button>
+    </div>
   </nav>
 
   <div>
@@ -48,7 +52,13 @@ html {
 .page-layout {
   padding: 0 50px 0 50px;
 }
-#AS {
+#meal {
+  color: white;
+}
+.columnn {
+  margin: 0.4% 0 auto 0;
+  float: left;
+  width: 50%;
   color: white;
 }
 </style>
