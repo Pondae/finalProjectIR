@@ -141,7 +141,7 @@ export default {
 }
 .container-fuild {
   padding-top: 2%;
-  background-color: rgb(196, 198, 230);
+  background-color: rgb(77, 85, 185);
   border: 2px solid black;
   border-radius: 20px;
   margin: 2%;
