@@ -1,6 +1,8 @@
 import json
 
 
-def Login(username, password):
-    print('connected')
-    return json.dumps(True)
+def Loginuser(username, password):
+    if username == 'peter' and password == 'honey':
+        return True
+    else:
+        return False

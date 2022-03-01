@@ -27,6 +27,9 @@ export default {
     });
   },
   Login(data) {
+    console.log(data)
+    console.log(data.username)
+    console.log(data.password)
     return apiClient.post("/Login", {
       username: data.username,
       password: data.password

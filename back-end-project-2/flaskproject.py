@@ -10,7 +10,13 @@ app = Flask(__name__)
 @app.route("/Login", methods=["POST"])
 @cross_origin()
 def Login():
-    return Login(request.json['username'], request.json['password'])
+    username = request.json['username']
+    password = request.json['password']
+    print(username)
+    print(password)
+    check = Loginuser(username, password)
+    output = json.dumps(check)
+    return output
 
 
 @app.route("/", methods=["GET"])

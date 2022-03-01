@@ -45,7 +45,7 @@ export default {
     return {
       username: "",
       password: "",
-      check: false
+      check: null,
     };
   },
 
@@ -58,6 +58,7 @@ export default {
       Service.Login(data)
         .then((response) => {
           this.check = response.data;
+          console.log(this.check)
           if(this.check == true){
             this.$router.push({
               name:"Searchlist"
