@@ -26,4 +26,10 @@ export default {
       query: query,
     });
   },
+  Login(data) {
+    return apiClient.post("/Login", {
+      username: data.username,
+      password: data.password
+    });
+  },
 };

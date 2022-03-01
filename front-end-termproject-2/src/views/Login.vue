@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-4"></div>
       <div class="col-4">
-        <form>
+        <form @submit.prevent="onLogin">
           <h2>Login</h2>
           <br />
           <div class="form-group">
@@ -15,6 +15,7 @@
               class="form-control"
               type="text"
               placeholder="input username"
+              v-model="username"
             />
           </div>
           <div class="form-group">
@@ -24,6 +25,7 @@
               class="form-control"
               id="exampleInputPassword1"
               placeholder="input password"
+              v-model="password"
             />
           </div>
           <button type="submit" class="btn btn-light">Submit</button>
@@ -35,14 +37,38 @@
 </template>
 
 <script>
+import Service from "../services/DataService.js";
 export default {
   name: "Searchlist",
   components: {},
   data() {
-    return {};
+    return {
+      username: "",
+      password: "",
+      check: false
+    };
   },
 
-  methods: {},
+  methods: {
+    onLogin() {
+      let data = {
+        username: this.username,
+        password: this.password,
+      };
+      Service.Login(data)
+        .then((response) => {
+          this.check = response.data;
+          if(this.check == true){
+            this.$router.push({
+              name:"Searchlist"
+            })
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
   created() {},
 };
 </script>
