@@ -10,18 +10,17 @@ data = pd.read_csv('resource/Food_ingredients.csv')
 data.drop_duplicates()
 
 data['Title'] = data['Title'].astype(str)
-data['Title'] = data['Title'].apply(lambda s: s.translate(str.maketrans('', '', '([$\'_&+,:;=?@\[\]#|<>.^*()%\\!"-])' +U'\xa8')))
+data['Title'] = data['Title'].apply(lambda s: s.translate(str.maketrans('', '', string.punctuation + u'\xa0')))
 data['Title'] = data['Title'].apply(lambda s: s.lower())
 data['Title'] = data['Title'].drop_duplicates()
 
 data['Cleaned_Ingredients'].astype(str)
 data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].apply(
-    lambda s: s.translate(str.maketrans('', '', string.punctuation + u'\xa0')))
+    lambda s: s.translate(str.maketrans('', '', '([$\'_&+,:;=?@\[\]#|<>.^*()%\\!"-])' + U'\xa8')))
 data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].apply(lambda s: s.lower())
 data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].drop_duplicates()
 
 data.to_json('resource/Food_ingredients.json', indent=1, orient='records')
-
 
 # print(len(data))
 # print(len(data['Title']))  # Title
@@ -62,6 +61,5 @@ def Loginuser(username, password):
     else:
         return False
 
-
 # if __name__ == '__main__':
-    # SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
+# SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
