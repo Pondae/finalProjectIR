@@ -39,6 +39,19 @@ def SearchingByTitle(query):
         )
     print(output)
 
+def SearchingByIngredients(query):
+    Ingredients_vector = tfidf.fit_transform(data['Cleaned_Ingredients'].astype('U'))
+    query_vec = tfidf.transform([query])
+    results = cosine_similarity(Ingredients_vector, query_vec).reshape((-1,))
+    output = []
+    for i in results.argsort()[-20:][::-1]:
+        output.append(
+            {"Title": data.iloc[i, 0], "Recipe": data.iloc[i, 2]
+             }
+        )
+    print(output)
+
+
 def Loginuser(username, password):
     if username == 'peter' and password == 'honey':
         return True
