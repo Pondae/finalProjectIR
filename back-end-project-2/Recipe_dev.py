@@ -21,6 +21,9 @@ data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].apply(
 data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].apply(lambda s: s.lower())
 data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].drop_duplicates()
 
+data.to_json('resource/Food_ingredients.json', indent=1, orient='records')
+
+
 # print(len(data))
 # print(len(data['Title']))  # Title
 # print(len(data['Cleaned_Ingredients']))  # Ingredient
