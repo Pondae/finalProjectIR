@@ -4,8 +4,19 @@ from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
 
-
 app = Flask(__name__)
+
+
+@app.route("/title_name", methods=["POST"])
+@cross_origin()
+def Title():
+    return jsonify(SearchingByTitle(request.json['query']))
+
+
+@app.route("/ingredients", methods=["POST"])
+@cross_origin()
+def Ingredient():
+    return jsonify(SearchingByIngredients(request.json['query']))
 
 
 @app.route("/Login", methods=["POST"])
