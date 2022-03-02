@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # pip install mysql-connector
 import pandas as pd
 
-data = pd.read_csv('Food_ingredients.csv')
+data = pd.read_csv('resource/Food_ingredients.csv')
 data.drop_duplicates()
 
 data['Title'] = data['Title'].astype(str)
