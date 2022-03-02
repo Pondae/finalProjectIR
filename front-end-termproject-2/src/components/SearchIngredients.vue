@@ -12,12 +12,12 @@
         <span>
           <div>
             <h4>
-              Food Title: <span id="title">{{ dataName.Title }}</span>
+              Food Title: <span id="title">{{ dataIngredient.Title }}</span>
             </h4>
           </div>
           <h5 class="card-title"></h5>
           <p class="card-text">
-            {{ dataName.Recipe }}
+            {{dataIngredient.Recipe }}
           </p>
         </span>
         <br />
@@ -29,9 +29,9 @@
 
 <script>
 export default {
-  name: "SearchName",
+  name: "SearchIngredient",
   props: {
-    dataName: {
+    dataIngredient: {
       type: Object,
       required: true,
     },
