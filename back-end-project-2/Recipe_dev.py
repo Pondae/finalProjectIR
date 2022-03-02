@@ -39,7 +39,6 @@ def SearchingByTitle(query):
         )
     print(output)
 
-
 def SearchingByIngredients(query):
     Ingredients_vector = tfidf.fit_transform(data['Cleaned_Ingredients'].astype('U'))
     query_vec = tfidf.transform([query])
@@ -58,3 +57,6 @@ def Loginuser(username, password):
         return True
     else:
         return False
+
+if __name__ == '__main__':
+    SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
