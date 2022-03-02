@@ -10,8 +10,7 @@ data = pd.read_csv('resource/Food_ingredients.csv')
 data.drop_duplicates()
 
 data['Title'] = data['Title'].astype(str)
-data['Title'] = data['Title'].apply(
-    lambda s: s.translate(str.maketrans('', '', string.punctuation + u'\xa0')))
+data['Title'] = data['Title'].apply(lambda s: s.translate(str.maketrans('', '', '([$\'_&+,:;=?@\[\]#|<>.^*()%\\!"-])' +U'\xa8')))
 data['Title'] = data['Title'].apply(lambda s: s.lower())
 data['Title'] = data['Title'].drop_duplicates()
 
