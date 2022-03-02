@@ -10,11 +10,15 @@
     <div class="card" style="100">
       <div class="card-body">
         <span>
+          <div>
+            <h4>
+              Food Title: <span id="title">{{ dataName.Title }}</span>
+            </h4>
+          </div>
           <h5 class="card-title"></h5>
-          <h4>SongName:</h4>
-          <h4 class="card-text">
-            {{ dataArtist.Songname }}
-          </h4>
+          <p class="card-text">
+            {{ dataName.Recipe }}
+          </p>
         </span>
         <br />
         <br />
@@ -25,9 +29,9 @@
 
 <script>
 export default {
-  name: "Searchresult",
+  name: "SearchName",
   props: {
-    dataArtist: {
+    dataName: {
       type: Object,
       required: true,
     },
@@ -37,7 +41,7 @@ export default {
 
 <style scoped>
 .card {
-  background-color: rgb(224, 234, 255);
+  background-color: rgb(154, 160, 231);
 }
 .col-4 {
   padding: 2%;
@@ -47,11 +51,23 @@ export default {
   font-family: "Raleway", sans-serif;
   text-transform: lowercase;
   font-weight: 500;
+  font-size: 14px;
   letter-spacing: 1px;
   display: inline-block;
   border-radius: 60px;
   transition: 0.5s;
   background-size: cover;
   position: relative;
+}
+#title {
+  color: rgb(221, 230, 255);
+  font: 0.8em sans-serif;
+  text-transform: uppercase;
+
+}
+.card-body{
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
+  font: 0.9em ;
 }
 </style>

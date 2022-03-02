@@ -6,8 +6,8 @@
   <div class="container-fuild">
     <div class="row">
       <div class="col-6">
-        <form @submit.prevent="searchTFIDF">
-          <h2>Search Recipe</h2>
+        <form @submit.prevent="searchName">
+          <h2>Search Name</h2>
           <br />
           <div class="form-group">
             <label for="exampleInputPassword1">Qurey:</label>
@@ -17,7 +17,7 @@
                 <input
                   class="form-control"
                   type="text"
-                  v-model="queryTF"
+                  v-model="queryName"
                   placeholder="Recipe input"
                 />
               </div>
@@ -28,8 +28,8 @@
         </form>
       </div>
       <div class="col-6">
-        <form @submit.prevent="searchTF">
-          <h2>Search ingredients</h2>
+        <form @submit.prevent="searchIngredient">
+          <h2>Search Ingredients</h2>
           <br />
           <div class="form-group">
             <label for="exampleInputPassword1">Qurey:</label>
@@ -39,7 +39,7 @@
                 <input
                   class="form-control"
                   type="text"
-                  v-model="queryTF"
+                  v-model="queryIngredient"
                   placeholder="Ingredients input"
                 />
               </div>
@@ -52,75 +52,58 @@
     </div>
     <br />
   </div>
-  <div>
-    <br />
-    <div v-if="queryTFIDF">
-      <h4 id="TFIDF">TFIDF</h4>
-      <SearchTFIDF
-        :dataTF_IDF="item"
-        v-for="item in dataTF_IDF"
-        :key="item.id"
-      />
+
+  <br />
+  <div v-if="queryName">
+    <div id="content">
+      <br />
+      <h4 id="C">Search by Name</h4>
+      <SearchName :dataName="item" v-for="item in dataName" :key="item.id" />
     </div>
-    <div v-if="queryTF">
-      <h4 id="TF">TF</h4>
-      <SearchTF :dataTF="x" v-for="x in dataTF" :key="x.id" />
-    </div>
-    <div v-if="querybm25">
-      <h4 id="BM25">BM25</h4>
-      <SearchBM2 :dataBM25="k" v-for="k in dataBM25" :key="k.id" />
+  </div>
+    <div v-if="queryIngredient">
+    <div id="content">
+      <br />
+      <h4 id="C">Search by Ingredient</h4>
+      <SearchIngredient :dataIngredient="x" v-for="x in dataIngredient" :key="x.id" />
     </div>
   </div>
 </template>
 
 <script>
 import Service from "../services/DataService.js";
-import SearchTFIDF from "../components/SearchTFIDF.vue";
-import SearchTF from "../components/SearchTF.vue";
-import SearchBM2 from "../components/SearchBM25.vue";
+import SearchName from "../components/SearchName.vue";
+import SearchIngredient from "../components/SearchIngredients.vue";
 export default {
   name: "Searchlist",
   components: {
-    SearchTFIDF,
-    SearchTF,
-    SearchBM2,
+    SearchName,
+    SearchIngredient
   },
   data() {
     return {
-      queryTF: "",
-      queryTFIDF: "",
-      querybm25: "",
-      dataTF: null,
-      dataTF_IDF: null,
-      dataBM25: null,
+      queryName: "",
+      queryIngredient: "",
+      dataName: null,
+      dataIngredient: null,
     };
   },
   methods: {
-    searchTFIDF() {
-      console.log(this.queryTFIDF);
-      Service.searchTFIDF(this.queryTFIDF)
+    searchName() {
+      console.log(this.queryName);
+      Service.SearchName(this.queryName)
         .then((response) => {
-          this.dataTF_IDF = response.data;
+          this.dataName = response.data;
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    searchTF() {
-      console.log(this.queryTFIDF);
-      Service.searchTF(this.queryTF)
+    searchIngredient() {
+      console.log(this.queryIngredient);
+      Service.SearchIngredient(this.queryIngredient)
         .then((response) => {
-          this.dataTF = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    bm25() {
-      console.log(this.querybm25);
-      Service.searchBM25(this.querybm25)
-        .then((response) => {
-          this.dataBM25 = response.data;
+          this.dataIngredient = response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -132,10 +115,6 @@ export default {
 </script>
 
 <style scoped>
-#Searchresult {
-  /* margin: 2%; */
-}
-
 .col-6 {
   padding: 2%;
 }
@@ -146,14 +125,18 @@ export default {
   border-radius: 20px;
   margin: 2%;
 }
-#TFIDF {
-  color: white;
+#content {
+  width: 100;
+  background-color: rgb(205, 206, 221);
+  border: 2px solid black;
 }
-#TF {
-  color: white;
-}
-#BM25 {
-  color: white;
+
+#C {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: black;
 }
 
 h1 {
