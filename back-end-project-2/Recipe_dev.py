@@ -27,6 +27,7 @@ data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].drop_duplicates()
 
 tfidf = TfidfVectorizer()
 
+
 def SearchingByTitle(query):
     Title_vector = tfidf.fit_transform(data['Title'].astype('U'))
     query_vec = tfidf.transform([query])
@@ -34,22 +35,23 @@ def SearchingByTitle(query):
     output = []
     for i in results.argsort()[-10:][::-1]:
         output.append(
-            {"Title": data.iloc[i, 0], "Recipe": data.iloc[i, 2]
+            {"Title": data.iloc[i, 1], "Recipe": data.iloc[i, 3]
              }
         )
-    print(output)
+    return output
+
 
 def SearchingByIngredients(query):
     Ingredients_vector = tfidf.fit_transform(data['Cleaned_Ingredients'].astype('U'))
     query_vec = tfidf.transform([query])
     results = cosine_similarity(Ingredients_vector, query_vec).reshape((-1,))
     output = []
-    for i in results.argsort()[-20:][::-1]:
+    for i in results.argsort()[-10:][::-1]:
         output.append(
-            {"Title": data.iloc[i, 0], "Recipe": data.iloc[i, 2]
+            {"Title": data.iloc[i, 1], "Recipe": data.iloc[i, 3]
              }
         )
-    print(output)
+    return output
 
 
 def Loginuser(username, password):
@@ -58,5 +60,6 @@ def Loginuser(username, password):
     else:
         return False
 
-if __name__ == '__main__':
-    SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
+
+# if __name__ == '__main__':
+    # SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
