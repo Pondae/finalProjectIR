@@ -2,7 +2,14 @@ import apiClient from "./AxiosClient.js";
 
 export default {
   SearchName(query) {
+    console.log('searchname')
     return apiClient.post("/title_name", {
+      query: query,
+    });
+  },
+  SearchIngredient(query) {
+    console.log('searchIngredient')
+    return apiClient.post("/ingredients", {
       query: query,
     });
   },

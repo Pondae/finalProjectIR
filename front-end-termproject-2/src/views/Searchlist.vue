@@ -28,8 +28,8 @@
         </form>
       </div>
       <div class="col-6">
-        <form @submit.prevent="searchTF">
-          <h2>Search ingredients</h2>
+        <form @submit.prevent="searchIngredient">
+          <h2>Search Ingredients</h2>
           <br />
           <div class="form-group">
             <label for="exampleInputPassword1">Qurey:</label>
@@ -39,7 +39,7 @@
                 <input
                   class="form-control"
                   type="text"
-                  v-model="queryTF"
+                  v-model="queryIngredient"
                   placeholder="Ingredients input"
                 />
               </div>
@@ -54,11 +54,18 @@
   </div>
 
   <br />
-  <div v-if="dataName">
-    <div  id="content">
-      <br>
+  <div v-if="queryName">
+    <div id="content">
+      <br />
       <h4 id="C">Search by Name</h4>
       <SearchName :dataName="item" v-for="item in dataName" :key="item.id" />
+    </div>
+  </div>
+    <div v-if="queryIngredient">
+    <div id="content">
+      <br />
+      <h4 id="C">Search by Ingredient</h4>
+      <SearchIngredient :dataIngredient="x" v-for="x in dataIngredient" :key="x.id" />
     </div>
   </div>
 </template>
@@ -66,15 +73,19 @@
 <script>
 import Service from "../services/DataService.js";
 import SearchName from "../components/SearchName.vue";
+import SearchIngredient from "../components/SearchIngredients.vue";
 export default {
   name: "Searchlist",
   components: {
     SearchName,
+    SearchIngredient
   },
   data() {
     return {
       queryName: "",
+      queryIngredient: "",
       dataName: null,
+      dataIngredient: null,
     };
   },
   methods: {
@@ -83,6 +94,16 @@ export default {
       Service.SearchName(this.queryName)
         .then((response) => {
           this.dataName = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    searchIngredient() {
+      console.log(this.queryIngredient);
+      Service.SearchIngredient(this.queryIngredient)
+        .then((response) => {
+          this.dataIngredient = response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -107,7 +128,7 @@ export default {
 #content {
   width: 100;
   background-color: rgb(205, 206, 221);
-  border: 2px solid black; 
+  border: 2px solid black;
 }
 
 #C {
