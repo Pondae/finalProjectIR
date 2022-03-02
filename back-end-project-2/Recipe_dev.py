@@ -25,14 +25,11 @@ data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].drop_duplicates()
 # print(len(data['Title']))  # Title
 # print(len(data['Cleaned_Ingredients']))  # Ingredient
 
-tfidf_Title_vector = TfidfVectorizer()
-tfidf_Ingredients_vector = TfidfVectorizer()
-Title_vector = tfidf_Title_vector.fit_transform(data['Title'].astype('U'))
-Ingredients_vector = tfidf_Ingredients_vector.fit_transform(data['Cleaned_Ingredients'].astype('U'))
-
+tfidf = TfidfVectorizer()
 
 def SearchingByTitle(query):
-    query_vec = tfidf_Title_vector.transform([query])
+    Title_vector = tfidf.fit_transform(data['Title'].astype('U'))
+    query_vec = tfidf.transform([query])
     results = cosine_similarity(Title_vector, query_vec).reshape((-1,))
     output = []
     for i in results.argsort()[-10:][::-1]:
@@ -40,11 +37,12 @@ def SearchingByTitle(query):
             {"Title": data.iloc[i, 0], "Recipe": data.iloc[i, 2]
              }
         )
-    return output
+    print(output)
 
 
 def SearchingByIngredients(query):
-    query_vec = tfidf_Ingredients_vector.transform([query])
+    Ingredients_vector = tfidf.fit_transform(data['Cleaned_Ingredients'].astype('U'))
+    query_vec = tfidf.transform([query])
     results = cosine_similarity(Ingredients_vector, query_vec).reshape((-1,))
     output = []
     for i in results.argsort()[-20:][::-1]:
@@ -52,7 +50,7 @@ def SearchingByIngredients(query):
             {"Title": data.iloc[i, 0], "Recipe": data.iloc[i, 2]
              }
         )
-    return output
+    print(output)
 
 
 def Loginuser(username, password):
