@@ -33,7 +33,7 @@ def SearchingByTitle(query):
     query_vec = tfidf.transform([query])
     results = cosine_similarity(Title_vector, query_vec).reshape((-1,))
     output = []
-    for i in results.argsort()[-10:][::-1]:
+    for i in results.argsort()[-3:][::-1]:
         output.append(
             {"Title": data.iloc[i, 1], "Recipe": data.iloc[i, 3]
              }
@@ -46,7 +46,7 @@ def SearchingByIngredients(query):
     query_vec = tfidf.transform([query])
     results = cosine_similarity(Ingredients_vector, query_vec).reshape((-1,))
     output = []
-    for i in results.argsort()[-10:][::-1]:
+    for i in results.argsort()[-3:][::-1]:
         output.append(
             {"Title": data.iloc[i, 1], "Recipe": data.iloc[i, 3]
              }
