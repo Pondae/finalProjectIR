@@ -37,7 +37,7 @@ def SearchingByTitle(query):
     for i in results.argsort()[-3:][::-1]:
         output.append(
             {"Title": data.iloc[i, 1],
-             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n,:;=?@\[\]#|<>.^*()%\\!"-\r\])' + U'\xa8'))
+             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8'))
              }
         )
     return output
@@ -51,7 +51,7 @@ def SearchingByIngredients(query):
     for i in results.argsort()[-3:][::-1]:
         output.append(
             {"Title": data.iloc[i, 1],
-             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n,:;=?@\[\]#|<>.^*()%\\!"-\r\])' + U'\xa8'))
+             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8'))
              }
         )
     return output
