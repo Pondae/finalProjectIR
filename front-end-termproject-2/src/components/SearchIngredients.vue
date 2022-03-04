@@ -6,7 +6,6 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
   />
-
   <div class="col">
     <div class="card" style="100">
       <div class="card-body">
@@ -19,7 +18,7 @@
                 </h4>
               </div>
               <div class="col-6">
-                <input type="checkbox" name="vehicle1" value="Bike" />
+                <input type="checkbox" @input="AddData" />
               </div>
             </div>
           </div>
@@ -38,6 +37,7 @@
 
 <script>
 export default {
+  inject: ["GStore"],
   name: "SearchIngredient",
   props: {
     dataIngredient: {
@@ -45,6 +45,19 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {};
+  },
+  methods: {
+    AddData() {
+      var myObj = {
+        title: this.dataName.Title,
+        recipe: this.dataName.Recipe,
+      };
+      this.GStore.Keepdata.push(myObj);
+    },
+  },
+  created() {},
 };
 </script>
 

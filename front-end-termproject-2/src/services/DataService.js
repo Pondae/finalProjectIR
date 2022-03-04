@@ -2,18 +2,17 @@ import apiClient from "./AxiosClient.js";
 
 export default {
   inject: ["GStore"],
-
+  Move() {
+    return this.$router.reload();
+  },
   MarktoData(data) {
     // let mark_data = new FormData();
     // mark_data.append("array", JSON.stringify(data));
     // console.log(data.title)
-    return apiClient
-      .post("/mark_data", {
-        title: data.title,
-        recipe: data.recipe
-      });
-
-
+    return apiClient.post("/mark_data", {
+      title: data.title,
+      recipe: data.recipe,
+    });
   },
   SearchName(query) {
     console.log("searchname");

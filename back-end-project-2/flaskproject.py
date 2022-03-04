@@ -3,6 +3,7 @@ import json
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
+import mysql.connector
 
 app = Flask(__name__)
 Keep_Titile = []
@@ -43,12 +44,23 @@ def Login():
 @cross_origin()
 def Mark_data():
     title = request.json['title']
-    Keep_Titile.append(title)
     recipe = request.json['recipe']
+    Keep_Titile.append(title)
     Keep_Recipe.append(recipe)
-    print(title)
-    print(recipe)
-    return  'hi'
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="0808601871",
+        database='foodrecipe'
+    )
+    cursor = db.cursor()
+    sql = '''
+    INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`) VALUES (%s, %s);
+    '''
+    val = (title, recipe)
+    cursor.execute(sql, val)
+    db.commit()
+    return 'hi'
     # print(a)
 
 

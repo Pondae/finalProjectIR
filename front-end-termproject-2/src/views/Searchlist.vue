@@ -77,7 +77,7 @@
     <div id="content">
       <br />
       <h4 id="C">Search by Ingredient</h4>
-      <form>
+      <form @submit.prevent="marktoDatabase">
         <div class="butt">
           <button v-if="queryIngredient" type="submit" class="btn btn-light">
             Add to Mark
@@ -111,24 +111,19 @@ export default {
       dataName: null,
       dataIngredient: null,
       data: null,
-      convertjson: null
+      convertjson: null,
     };
   },
   methods: {
     marktoDatabase() {
-      this.data = this.GStore.Keepdata
-      // console.log(this.data)
-      this.GStore.Keepdata = []
-      this.data.forEach(element => {
-        //  console.log(element.title)
-        //  console.log(element.recipe)
-        Service.MarktoData(element)
+      this.data = this.GStore.Keepdata;
+      this.GStore.Keepdata = [];
+      this.data.forEach((element) => {
+        Service.MarktoData(element);
       });
-     
-          // this.$router.push({
-            // name: "MarkdataProfile",
-          // });
-      
+      // window.location.reload()
+
+      this.$router.push({ name: "MarkProfile" });
     },
     searchName() {
       console.log(this.queryName);

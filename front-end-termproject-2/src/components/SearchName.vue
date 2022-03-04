@@ -7,7 +7,6 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
   />
   <div class="col">
-    <!-- {{GStore.Keepdata[0][0]}} -->
     <div class="card" style="100">
       <div class="card-body">
         <span>
@@ -47,18 +46,15 @@ export default {
     },
   },
   data() {
-    return {
-      unique: [],
-    };
+    return {};
   },
   methods: {
     AddData() {
       var myObj = {
-        "title": this.dataName.Title, //your artist variable
-        "recipe": this.dataName.Recipe, //your title variable
+        title: this.dataName.Title,
+        recipe: this.dataName.Recipe,
       };
       this.GStore.Keepdata.push(myObj);
-      // console.log(this.GStore.Keepdata);
     },
   },
   created() {},
