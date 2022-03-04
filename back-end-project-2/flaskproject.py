@@ -5,6 +5,8 @@ from flask_cors import cross_origin
 from Recipe_dev import *
 
 app = Flask(__name__)
+Keep_Titile = []
+Keep_Recipe = []
 
 
 @app.route("/title_name", methods=["POST"])
@@ -31,11 +33,27 @@ def Login():
     return output
 
 
-@app.route("/", methods=["GET"])
-@cross_origin()
-def HI():
-    return "hi"
+# @app.route("/", methods=["GET"])
+# @cross_origin()
+# def HI():
+#     return "hi"
 
+
+@app.route("/mark_data", methods=["POST"])
+@cross_origin()
+def Mark_data():
+    title = request.json['title']
+    Keep_Titile.append(title)
+    recipe = request.json['recipe']
+    Keep_Recipe.append(recipe)
+    print(title)
+    print(recipe)
+    return  'hi'
+    # print(a)
+
+
+print(Keep_Titile)
+print(Keep_Recipe)
 
 if __name__ == '__main__':
     app.run(host="localhost", port=8000, debug=True)
