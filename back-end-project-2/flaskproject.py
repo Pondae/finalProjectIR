@@ -6,8 +6,6 @@ from Recipe_dev import *
 import mysql.connector
 
 app = Flask(__name__)
-Keep_Titile = []
-Keep_Recipe = []
 
 
 @app.route("/title_name", methods=["POST"])
@@ -45,8 +43,6 @@ def Login():
 def Mark_data():
     title = request.json['title']
     recipe = request.json['recipe']
-    Keep_Titile.append(title)
-    Keep_Recipe.append(recipe)
     db = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -61,11 +57,8 @@ def Mark_data():
     cursor.execute(sql, val)
     db.commit()
     return 'hi'
-    # print(a)
 
 
-print(Keep_Titile)
-print(Keep_Recipe)
 
 if __name__ == '__main__':
     app.run(host="localhost", port=8000, debug=True)

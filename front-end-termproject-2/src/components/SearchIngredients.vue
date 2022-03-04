@@ -17,8 +17,24 @@
                   Food Title: <span id="title">{{ dataIngredient.Title }}</span>
                 </h4>
               </div>
-              <div class="col-6">
-                <input type="checkbox" @input="AddData" />
+              <div class="col-6" id="check">
+                <div v-if="!checked">
+                  <h7 id="mark">mark</h7>
+                  <input
+                    v-if="!checked"
+                    type="checkbox"
+                    id="checkbox"
+                    v-model="checked"
+                    @input="AddData"
+                  />
+                </div>
+                <h7 id="mark">unmark</h7>
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  v-model="checked"
+                  @input="AddData"
+                />
               </div>
             </div>
           </div>
@@ -46,15 +62,27 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      checked: false,
+    };
   },
   methods: {
     AddData() {
       var myObj = {
-        title: this.dataName.Title,
-        recipe: this.dataName.Recipe,
+        title: this.dataIngredient.Title,
+        recipe: this.dataIngredient.Recipe,
       };
-      this.GStore.Keepdata.push(myObj);
+      if (this.checked === false) {
+        this.GStore.Keepdata.push(myObj);
+        console.log(this.checked);
+        console.log("hi");
+      }
+      if (this.checked === true) {
+        this.GStore.Keepdata.pop();
+        console.log(this.checked);
+        console.log("hi");
+      }
+      console.log(this.GStore.Keepdata);
     },
   },
   created() {},
@@ -62,6 +90,12 @@ export default {
 </script>
 
 <style scoped>
+#mark {
+  padding-right: 2%;
+}
+#checkbox {
+  padding-right: 3%;
+}
 #check {
   text-align: right;
   font: 3em;
