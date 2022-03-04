@@ -22,9 +22,9 @@ data['Cleaned_Ingredients'] = data['Cleaned_Ingredients'].drop_duplicates()
 
 data.to_json('resource/Food_ingredients.json', indent=1, orient='records')
 
-# print(len(data))
-# print(len(data['Title']))  # Title
-# print(len(data['Cleaned_Ingredients']))  # Ingredient
+print(len(data))
+print(len(data['Title']))  # Title
+print(len(data['Cleaned_Ingredients']))  # Ingredient
 
 tfidf = TfidfVectorizer()
 
@@ -36,7 +36,8 @@ def SearchingByTitle(query):
     output = []
     for i in results.argsort()[-3:][::-1]:
         output.append(
-            {"Title": data.iloc[i, 1], "Recipe": data.iloc[i, 3]
+            {"Title": data.iloc[i, 1],
+             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n,:;=?@\[\]#|<>.^*()%\\!"-\r\])' + U'\xa8'))
              }
         )
     return output
@@ -49,7 +50,8 @@ def SearchingByIngredients(query):
     output = []
     for i in results.argsort()[-3:][::-1]:
         output.append(
-            {"Title": data.iloc[i, 1], "Recipe": data.iloc[i, 3]
+            {"Title": data.iloc[i, 1],
+             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n,:;=?@\[\]#|<>.^*()%\\!"-\r\])' + U'\xa8'))
              }
         )
     return output
