@@ -8,7 +8,9 @@
         currentUser.username
       </span>
 
-      <button class="btn btn-logout-color" @click="logout" style="color: white;">Logout</button>
+      <button class="btn btn-logout-color" @click="logout" style="color: white">
+        Logout
+      </button>
     </div>
   </nav>
 

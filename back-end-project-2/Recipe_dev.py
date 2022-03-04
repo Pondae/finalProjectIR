@@ -28,6 +28,21 @@ print(len(data['Cleaned_Ingredients']))  # Ingredient
 
 tfidf = TfidfVectorizer()
 
+# db = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     password="0808601871",
+#     database='foodrecipe'
+# )
+#
+# cursor = db.cursor()
+# sql = '''
+# INSERT INTO `foodrecipe`.`fav_recipe` (`id_fav_recipe`, `title`, `recipe`) VALUES ('3', 'Icecream1234', 'long tinme itklss');
+# '''
+#
+# cursor.execute(sql)
+# db.commit()
+
 
 def SearchingByTitle(query):
     Title_vector = tfidf.fit_transform(data['Title'].astype('U'))

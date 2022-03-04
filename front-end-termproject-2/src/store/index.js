@@ -4,5 +4,6 @@ export default reactive({
   patient: null,
   user: null,
   item: null,
+  Keepdata: [],
   currentUser: JSON.parse(localStorage.getItem("user")),
 });

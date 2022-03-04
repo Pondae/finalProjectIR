@@ -3,6 +3,7 @@ import json
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
+import mysql.connector
 
 app = Flask(__name__)
 
@@ -31,10 +32,32 @@ def Login():
     return output
 
 
-@app.route("/", methods=["GET"])
+# @app.route("/", methods=["GET"])
+# @cross_origin()
+# def HI():
+#     return "hi"
+
+
+@app.route("/mark_data", methods=["POST"])
 @cross_origin()
-def HI():
-    return "hi"
+def Mark_data():
+    title = request.json['title']
+    recipe = request.json['recipe']
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="0808601871",
+        database='foodrecipe'
+    )
+    cursor = db.cursor()
+    sql = '''
+    INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`) VALUES (%s, %s);
+    '''
+    val = (title, recipe)
+    cursor.execute(sql, val)
+    db.commit()
+    return 'hi'
+
 
 
 if __name__ == '__main__':
