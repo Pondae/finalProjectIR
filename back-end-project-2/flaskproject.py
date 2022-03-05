@@ -43,12 +43,6 @@ def Login():
 def Mark_data():
     title = request.json['title']
     recipe = request.json['recipe']
-    db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="0808601871",
-        database='foodrecipe'
-    )
     cursor = db.cursor()
     sql = '''
     INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`) VALUES (%s, %s);
@@ -57,7 +51,6 @@ def Mark_data():
     cursor.execute(sql, val)
     db.commit()
     return 'hi'
-
 
 
 if __name__ == '__main__':

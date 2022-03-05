@@ -28,20 +28,42 @@ print(len(data['Cleaned_Ingredients']))  # Ingredient
 
 tfidf = TfidfVectorizer()
 
-# db = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     password="0808601871",
-#     database='foodrecipe'
-# )
-#
-# cursor = db.cursor()
-# sql = '''
-# INSERT INTO `foodrecipe`.`fav_recipe` (`id_fav_recipe`, `title`, `recipe`) VALUES ('3', 'Icecream1234', 'long tinme itklss');
-# '''
-#
-# cursor.execute(sql)
-# db.commit()
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="0808601871",
+    database='foodrecipe'
+)
+
+
+def Getmark_data():
+    title = []
+    recipe = []
+    correc_title = []
+    correc_recipe = []
+    cursor = db.cursor()
+    sql = '''
+    SELECT title FROM fav_recipe;
+    '''
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    for i in result:
+        val = json.dumps(i)
+        title.append(val)
+
+    sql2 = '''
+        SELECT recipe FROM fav_recipe;
+        '''
+    cursor.execute(sql2)
+    result2 = cursor.fetchall()
+    for i in result2:
+        val = json.dumps(i)
+        recipe.append(val)
+
+    for i in title:
+        correc_title.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+    for i in recipe:
+        correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
 
 def SearchingByTitle(query):
