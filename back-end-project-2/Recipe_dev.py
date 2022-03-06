@@ -1,9 +1,9 @@
 import json
 import string
+# pip install mysql-connector
 import mysql.connector
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-# pip install mysql-connector
 import pandas as pd
 
 data = pd.read_csv('resource/Food_ingredients.csv')
@@ -28,20 +28,50 @@ print(len(data['Cleaned_Ingredients']))  # Ingredient
 
 tfidf = TfidfVectorizer()
 
-# db = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     password="0808601871",
-#     database='foodrecipe'
-# )
-#
-# cursor = db.cursor()
-# sql = '''
-# INSERT INTO `foodrecipe`.`fav_recipe` (`id_fav_recipe`, `title`, `recipe`) VALUES ('3', 'Icecream1234', 'long tinme itklss');
-# '''
-#
-# cursor.execute(sql)
-# db.commit()
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="0808601871",
+    database='foodrecipe'
+)
+
+
+def Getmark_data():
+    title = []
+    recipe = []
+    correc_title = []
+    correc_recipe = []
+    cursor = db.cursor()
+    sql = '''
+    SELECT title FROM fav_recipe;
+    '''
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    for i in result:
+        val = json.dumps(i)
+        title.append(val)
+
+    sql2 = '''
+        SELECT recipe FROM fav_recipe;
+        '''
+    cursor.execute(sql2)
+    result2 = cursor.fetchall()
+    for i in result2:
+        val = json.dumps(i)
+        recipe.append(val)
+
+    for i in title:
+        correc_title.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+    for i in recipe:
+        correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+
+    d = {'Title': correc_title, 'Recipe': correc_recipe}
+    df = pd.DataFrame(d)
+    df.drop_duplicates()
+    json_result = df.to_json(orient="records")
+    output = json.loads(json_result)
+
+    return output
 
 
 def SearchingByTitle(query):
@@ -72,7 +102,7 @@ def SearchingByIngredients(query):
     return output
 
 
-def Loginuser(username, password):
+def Login_user(username, password):
     if username == 'peter' and password == 'honey':
         return True
     else:
