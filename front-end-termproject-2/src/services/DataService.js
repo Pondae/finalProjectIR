@@ -6,13 +6,13 @@ export default {
     return this.$router.reload();
   },
   MarktoData(data) {
-    // let mark_data = new FormData();
-    // mark_data.append("array", JSON.stringify(data));
-    // console.log(data.title)
     return apiClient.post("/mark_data", {
       title: data.title,
       recipe: data.recipe,
     });
+  },
+  Get_MarktoData() {
+    return apiClient.get("/get_mark_data");
   },
   SearchName(query) {
     console.log("searchname");

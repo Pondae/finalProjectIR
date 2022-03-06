@@ -18,7 +18,7 @@
                   class="form-control"
                   type="text"
                   v-model="queryName"
-                  placeholder="Recipe input"
+                  placeholder="Title input"
                 />
               </div>
               <div class="col-3"></div>
