@@ -27,15 +27,15 @@ def Login():
     password = request.json['password']
     print(username)
     print(password)
-    check = Loginuser(username, password)
+    check = Login_user(username, password)
     output = json.dumps(check)
     return output
 
 
-# @app.route("/", methods=["GET"])
-# @cross_origin()
-# def HI():
-#     return "hi"
+@app.route("/get_mark_data", methods=["GET"])
+@cross_origin()
+def GettingMark_data():
+    return jsonify(Getmark_data())
 
 
 @app.route("/mark_data", methods=["POST"])
@@ -50,7 +50,7 @@ def Mark_data():
     val = (title, recipe)
     cursor.execute(sql, val)
     db.commit()
-    return 'hi'
+    return 'Adding mark fav'
 
 
 if __name__ == '__main__':

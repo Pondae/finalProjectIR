@@ -1,9 +1,9 @@
 import json
 import string
+# pip install mysql-connector
 import mysql.connector
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-# pip install mysql-connector
 import pandas as pd
 
 data = pd.read_csv('resource/Food_ingredients.csv')
@@ -65,6 +65,13 @@ def Getmark_data():
     for i in recipe:
         correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
+    d = {'Title': correc_title, 'Recipe': correc_recipe}
+    df = pd.DataFrame(d)
+    json_result = df.to_json(orient="records")
+    output = json.loads(json_result)
+
+    return output
+
 
 def SearchingByTitle(query):
     Title_vector = tfidf.fit_transform(data['Title'].astype('U'))
@@ -94,7 +101,7 @@ def SearchingByIngredients(query):
     return output
 
 
-def Loginuser(username, password):
+def Login_user(username, password):
     if username == 'peter' and password == 'honey':
         return True
     else:
