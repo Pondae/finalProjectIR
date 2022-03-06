@@ -121,7 +121,7 @@ export default {
       this.data.forEach((element) => {
         Service.MarktoData(element);
       });
-      // window.location.reload()
+      
 
       this.$router.push({ name: "MarkProfile" });
     },

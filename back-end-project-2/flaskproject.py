@@ -49,7 +49,6 @@ def Mark_data():
     '''
     val = (title, recipe)
     cursor.execute(sql, val)
-    db.commit()
     return 'Adding mark fav'
 
 
