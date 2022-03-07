@@ -81,6 +81,7 @@ def Searching_mark(query):
     print(output)
     return output
 
+
 def Getmark_data():
     title = []
     recipe = []

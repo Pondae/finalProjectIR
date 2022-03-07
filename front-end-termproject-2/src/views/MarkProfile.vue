@@ -18,7 +18,7 @@
     </div>
     <br />
     <div>
-      <form>
+      <form @submit.prevent="searchfav">
         <h2 style="color: white">Search</h2>
         <br />
         <div class="form-group">
@@ -42,29 +42,43 @@
     </div>
     <br />
     <div v-if="!query">
-    <Mark :fav_data="x" v-for="x in fav_data" :key="x.id" />
+    <Mark :fav_data="i" v-for="i in fav_data" :key="i.id" />
     </div>
-    <!-- <div v-if="query">
-    
-    </div> -->
+    <div v-if="query">
+    <Searchfav :search_data="x" v-for="x in search_data" :key="x.id"/>
+    </div>
   </div>
 </template>
 
 <script>
 import Service from "../services/DataService.js";
 import Mark from "../components/Mark_fav.vue";
+import Searchfav from "../components/SearchMark.vue";
 export default {
   name: "MarkProfile",
   components: {
     Mark,
+    Searchfav
   },
   data() {
     return {
       fav_data: null,
-      query:""
+      query:"",
+      search_data: null
     };
   },
-  methods: {},
+  methods: {
+    searchfav() {
+      console.log(this.query);
+      Service.SearchFav(this.query)
+        .then((response) => {
+          this. search_data = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
   created() {
     Service.Get_MarktoData()
       .then((response) => {
