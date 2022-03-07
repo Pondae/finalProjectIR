@@ -58,11 +58,11 @@ export default {
       Service.Login(data)
         .then((response) => {
           this.check = response.data;
-          console.log(this.check)
-          if(this.check == true){
+          console.log(this.check);
+          if (this.check == true) {
             this.$router.push({
-              name:"Searchlist"
-            })
+              name: "Searchlist",
+            });
           }
         })
         .catch((error) => {
