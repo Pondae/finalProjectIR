@@ -14,6 +14,12 @@ export default {
   Get_MarktoData() {
     return apiClient.get("/get_mark_data");
   },
+  SearchFav(query) {
+    console.log("SearchFav");
+    return apiClient.post("/mark_search", {
+      query: query,
+    });
+  },
   SearchName(query) {
     console.log("searchname");
     return apiClient.post("/title_name", {

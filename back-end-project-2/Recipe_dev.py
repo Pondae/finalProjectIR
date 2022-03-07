@@ -36,6 +36,52 @@ db = mysql.connector.connect(
 )
 
 
+def Searching_mark(query):
+    title = []
+    recipe = []
+    correc_title = []
+    correc_recipe = []
+    cursor = db.cursor()
+    sql = '''
+       SELECT title FROM fav_recipe;
+       '''
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    for i in result:
+        val = json.dumps(i)
+        title.append(val)
+
+    sql2 = '''
+           SELECT recipe FROM fav_recipe;
+           '''
+    cursor.execute(sql2)
+    result2 = cursor.fetchall()
+    for i in result2:
+        val = json.dumps(i)
+        recipe.append(val)
+
+    for i in title:
+        correc_title.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+    for i in recipe:
+        correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+
+    d = {'Title': correc_title, 'Recipe': correc_recipe}
+    df = pd.DataFrame(d)
+    df = df.drop_duplicates()
+    vector = tfidf.fit_transform(df['Title'].astype('U'))
+    query_vec = tfidf.transform([query])
+    results = cosine_similarity(vector, query_vec).reshape((-1,))
+    output = []
+    for i in results.argsort()[-2:][::-1]:
+        output.append(
+            {"Title": df.iloc[i, 0],
+             "Recipe": df.iloc[i, 1]
+             }
+        )
+    print(output)
+    return output
+
+
 def Getmark_data():
     title = []
     recipe = []

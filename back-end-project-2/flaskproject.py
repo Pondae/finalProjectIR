@@ -20,6 +20,12 @@ def Ingredient():
     return jsonify(SearchingByIngredients(request.json['query']))
 
 
+@app.route("/mark_search", methods=["POST"])
+@cross_origin()
+def Mark_Search():
+    return jsonify(Searching_mark(request.json['query']))
+
+
 @app.route("/Login", methods=["POST"])
 @cross_origin()
 def Login():
