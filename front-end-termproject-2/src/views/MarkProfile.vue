@@ -90,11 +90,12 @@ export default {
     },
     unmarktoDatabase() {
       this.data = this.GStore.Deldata;
+      console.log(this.data)
       this.GStore.Deldata = [];
       this.data.forEach((element) => {
         Service.UnMarktoData(element);
       });
-      location.reload();
+       this.$router.push({ name: "Searchlist" });
     },
   },
   created() {

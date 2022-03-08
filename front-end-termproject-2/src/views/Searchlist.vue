@@ -118,6 +118,8 @@ export default {
     marktoDatabase() {
       this.data = this.GStore.Keepdata;
       this.GStore.Keepdata = [];
+      console.log("keepdata")
+      console.log(this.GStore.Keepdata)
       this.data.forEach((element) => {
         Service.MarktoData(element);
       });

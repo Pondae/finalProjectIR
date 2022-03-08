@@ -127,7 +127,7 @@ def Getmark_data():
 
     d = {'id': correct_id, 'Title': correc_title, 'Recipe': correc_recipe}
     df = pd.DataFrame(d)
-    df = df.drop_duplicates()
+    df = df.drop_duplicates(subset=['Title'])
     json_result = df.to_json(orient="records")
     output = json.loads(json_result)
 

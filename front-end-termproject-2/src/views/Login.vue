@@ -51,6 +51,7 @@ export default {
   },
 
   methods: {
+
     onLogin() {
       let data = {
         username: this.username,
@@ -65,6 +66,9 @@ export default {
             this.$router.push({
               name: "Searchlist",
             });
+          }
+          else{
+                location.reload();
           }
         })
         .catch((error) => {
