@@ -5,6 +5,11 @@ export default {
   Move() {
     return this.$router.reload();
   },
+  UnMarktoData(data) {
+    return apiClient.post("/unmark_data", {
+      id : data.id
+    });
+  },
   MarktoData(data) {
     return apiClient.post("/mark_data", {
       title: data.title,

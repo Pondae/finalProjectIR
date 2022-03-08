@@ -55,7 +55,21 @@ def Mark_data():
     '''
     val = (title, recipe)
     cursor.execute(sql, val)
-    return 'Adding mark fav'
+    print('Adding mark fav: ' + str(title) + 'and ' + str(recipe))
+    return 'Adding mark fav: ' + str(title) + 'and ' + str(recipe)
+
+
+@app.route("/unmark_data", methods=["POST"])
+@cross_origin()
+def UnMark_data():
+    identify = request.json['id']
+    cursor = db.cursor()
+    sql = '''
+    DELETE FROM `foodrecipe`.`fav_recipe` WHERE (`id_fav_recipe` = %s );
+    '''
+    cursor.execute(sql, (identify,))
+    print('Deleting mark fav: ' + str(identify))
+    return 'Deleting mark fav: ' + str(identify)
 
 
 if __name__ == '__main__':

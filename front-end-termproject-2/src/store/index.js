@@ -5,5 +5,6 @@ export default reactive({
   user: null,
   item: null,
   Keepdata: [],
+  Deldata: [],
   currentUser: JSON.parse(localStorage.getItem("user")),
 });

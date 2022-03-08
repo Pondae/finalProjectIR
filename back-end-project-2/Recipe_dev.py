@@ -42,6 +42,7 @@ def Searching_mark(query):
     correc_title = []
     correc_recipe = []
     cursor = db.cursor()
+
     sql = '''
        SELECT title FROM fav_recipe;
        '''
@@ -85,11 +86,13 @@ def Searching_mark(query):
 def Getmark_data():
     title = []
     recipe = []
+    id = []
+    correct_id = []
     correc_title = []
     correc_recipe = []
     cursor = db.cursor()
     sql = '''
-    SELECT title FROM fav_recipe;
+    SELECT title  FROM fav_recipe;
     '''
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -106,12 +109,23 @@ def Getmark_data():
         val = json.dumps(i)
         recipe.append(val)
 
+    sql3 = '''
+       SELECT id_fav_recipe FROM fav_recipe;
+       '''
+    cursor.execute(sql3)
+    result3 = cursor.fetchall()
+    for i in result3:
+        val = json.dumps(i)
+        id.append(val)
+
+    for i in id:
+        correct_id.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
     for i in title:
         correc_title.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
     for i in recipe:
         correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
-    d = {'Title': correc_title, 'Recipe': correc_recipe}
+    d = {'id': correct_id, 'Title': correc_title, 'Recipe': correc_recipe}
     df = pd.DataFrame(d)
     df = df.drop_duplicates()
     json_result = df.to_json(orient="records")
