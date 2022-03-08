@@ -170,7 +170,7 @@ def Login_user(username, password):
             {
                 'user': username,
                 'password': password,
-                'check': json.dumps(check)
+                'check': check
             }
         )
         return output
@@ -180,7 +180,7 @@ def Login_user(username, password):
             {
                 'user': username,
                 'password': password,
-                'check': json.dumps(check)
+                'check': check
             }
         )
         return output
@@ -190,7 +190,7 @@ def Login_user(username, password):
             {
                 'user': username,
                 'password': password,
-                'check': json.dumps(check)
+                'check': check
             }
         )
         return output
@@ -200,7 +200,7 @@ def Login_user(username, password):
             {
                 'user': username,
                 'password': password,
-                'check': json.dumps(check)
+                'check': check
             }
         )
         return output

@@ -5,7 +5,7 @@
     </router-link>
     <div class="columnn">
       <span style="font-weight: bold; margin-right: 2%">
-        currentUser.username
+        {{GStore.currentUser}}
       </span>
 
       <button class="btn btn-logout-color" @click="logout" style="color: white">
@@ -20,7 +20,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  inject: ["GStore"]
+};
 </script>
 
 <style>

@@ -40,12 +40,13 @@
 import Service from "../services/DataService.js";
 export default {
   name: "Searchlist",
+  inject: ["GStore"],
   components: {},
   data() {
     return {
       username: "",
       password: "",
-      check: null,
+      checked: null,
     };
   },
 
@@ -57,9 +58,10 @@ export default {
       };
       Service.Login(data)
         .then((response) => {
-          this.check = response.data;
-          console.log(this.check);
-          if (this.check == true) {
+          this.GStore.currentUser = response.data[0].user;
+          this.checked = response.data[0].check;
+          console.log(this.checked);
+          if (this.checked == true) {
             this.$router.push({
               name: "Searchlist",
             });
