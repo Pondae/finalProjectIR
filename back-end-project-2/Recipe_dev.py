@@ -163,10 +163,47 @@ def SearchingByIngredients(query):
 
 
 def Login_user(username, password):
-    if username == 'peter' and password == 'honey':
-        return True
+    output = []
+    if username == 'kong' and password == 'kong1234':
+        check = True
+        output.append(
+            {
+                'user': username,
+                'password': password,
+                'check': json.dumps(check)
+            }
+        )
+        return output
+    elif username == 'fax' and password == 'fax1234':
+        check = True
+        output.append(
+            {
+                'user': username,
+                'password': password,
+                'check': json.dumps(check)
+            }
+        )
+        return output
+    elif username == 'plook' and password == 'plook1234':
+        check = True
+        output.append(
+            {
+                'user': username,
+                'password': password,
+                'check': json.dumps(check)
+            }
+        )
+        return output
     else:
-        return False
+        check = False
+        output.append(
+            {
+                'user': username,
+                'password': password,
+                'check': json.dumps(check)
+            }
+        )
+        return output
 
 # if __name__ == '__main__':
 # SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")

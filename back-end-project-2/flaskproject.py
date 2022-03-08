@@ -33,9 +33,8 @@ def Login():
     password = request.json['password']
     print(username)
     print(password)
-    check = Login_user(username, password)
-    output = json.dumps(check)
-    return output
+
+    return jsonify(Login_user(username, password))
 
 
 @app.route("/get_mark_data", methods=["GET"])
