@@ -43,9 +43,7 @@ export default {
       checked: false,
     };
   },
-  methods: {
- 
-  },
+  methods: {},
   created() {},
 };
 </script>

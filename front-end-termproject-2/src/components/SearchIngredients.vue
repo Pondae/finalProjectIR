@@ -75,12 +75,10 @@ export default {
       if (this.checked === false) {
         this.GStore.Keepdata.push(myObj);
         console.log(this.checked);
-        console.log("hi");
       }
       if (this.checked === true) {
         this.GStore.Keepdata.pop();
         console.log(this.checked);
-        console.log("hi");
       }
       console.log(this.GStore.Keepdata);
     },

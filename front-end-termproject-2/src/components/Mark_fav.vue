@@ -5,9 +5,32 @@
       <div class="card-body">
         <span>
           <div>
-            <h4>
-              Food Title: <span id="title">{{ fav_data.Title }}</span>
-            </h4>
+            <div class="row">
+              <div class="col-6">
+                <h4>
+                  Food Title: <span id="title">{{ fav_data.Title }}</span>
+                </h4>
+              </div>
+              <div class="col-6" id="check">
+                <div v-if="!checked">
+                  <h7 id="mark">unmark</h7>
+                  <input
+                    v-if="!checked"
+                    type="checkbox"
+                    id="checkbox"
+                    v-model="checked"
+                    @input="AddData"
+                  />
+                </div>
+                <h7 id="mark">mark</h7>
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  v-model="checked"
+                  @input="AddData"
+                />
+              </div>
+            </div>
           </div>
           <h5 class="card-title"></h5>
           <p class="card-text">
@@ -24,6 +47,7 @@
 
 <script>
 export default {
+  inject: ["GStore"],
   name: "Mark_fav",
   props: {
     fav_data: {
@@ -32,9 +56,26 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      checked: false,
+    };
   },
-  methods: {},
+  methods: {
+    AddData() {
+      var myObj = {
+        id : this.fav_data.id
+      };
+      if (this.checked === false) {
+        this.GStore.Deldata.push(myObj);
+        console.log(this.checked);
+      }
+      if (this.checked === true) {
+        this.GStore.Deldata.pop();
+        console.log(this.checked);
+      }
+      console.log(this.GStore.Deldata);
+    },
+  },
   created() {},
 };
 </script>
