@@ -1,13 +1,16 @@
 <template>
   <nav class="navbar">
-    <router-link to="/" class="nav-link">
+    <router-link to="/" class="nav-link" v-if="GStore.currentUser">
       <h5 id="meal">Search Meal</h5>
     </router-link>
-    <div class="columnn">
-      <span style="font-weight: bold; margin-right: 2%">
-        currentUser.username
-      </span>
+    <h5 v-if="!GStore.currentUser" id="meal">Must login</h5>
 
+    <div class="colum">
+      <router-link to="/markProfile" class="nav-link" >
+        <span style="font-weight: bold; color:white;">
+          {{ GStore.currentUser }}
+        </span>
+      </router-link>
       <button class="btn btn-logout-color" @click="logout" style="color: white">
         Logout
       </button>
@@ -20,7 +23,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  inject: ["GStore"],
+  methods: {
+    logout() {
+      this.GStore.currentUser = null;
+      this.$router.push({ name: "Login" });
+    },
+  },
+};
 </script>
 
 <style>
