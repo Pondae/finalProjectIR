@@ -6,6 +6,13 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, T
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 
+from spellchecker import SpellChecker
+
+spell = SpellChecker()
+
+a= spell.correction("becausw")
+
+
 data = pd.read_csv('resource/Food_ingredients.csv')
 data.drop_duplicates()
 

@@ -22,8 +22,9 @@
                     @input="AddData"
                   />
                 </div>
-                <h7 id="mark">mark</h7>
+                <h7 id="mark"  v-if="checked">mark</h7>
                 <input
+                  v-if="checked"
                   type="checkbox"
                   id="checkbox"
                   v-model="checked"

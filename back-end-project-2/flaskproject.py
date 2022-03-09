@@ -1,9 +1,8 @@
-import json
 
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
-import mysql.connector
+
 
 app = Flask(__name__)
 
