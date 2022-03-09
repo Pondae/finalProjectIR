@@ -1,9 +1,8 @@
-import json
 
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
-import mysql.connector
+
 
 app = Flask(__name__)
 
@@ -33,9 +32,8 @@ def Login():
     password = request.json['password']
     print(username)
     print(password)
-    check = Login_user(username, password)
-    output = json.dumps(check)
-    return output
+
+    return jsonify(Login_user(username, password))
 
 
 @app.route("/get_mark_data", methods=["GET"])

@@ -9,12 +9,12 @@ const routes = [
     component: MarkProfile,
   },
   {
-    path: "/login",
+    path: "/",
     name: "Login",
     component: Login,
   },
   {
-    path: "/",
+    path: "/searchlist",
     name: "Searchlist",
     component: Searchlist,
   },
