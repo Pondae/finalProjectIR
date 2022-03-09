@@ -10,7 +10,7 @@ from spellchecker import SpellChecker
 
 spell = SpellChecker()
 
-a= spell.correction("becausw")
+a = spell.correction("purk")
 
 
 data = pd.read_csv('resource/Food_ingredients.csv')
@@ -38,7 +38,7 @@ tfidf = TfidfVectorizer()
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="0808601871",
+    password="",
     database='foodrecipe'
 )
 
@@ -49,6 +49,13 @@ def Searching_mark(query):
     correc_title = []
     correc_recipe = []
     cursor = db.cursor()
+    sequence = []
+    words = query.split()
+    index = 0
+    for i in words:
+        sequence.append(spell.correction(i))
+        index += 1
+    sentence = ' '.join(sequence)
 
     sql = '''
        SELECT title FROM fav_recipe;
@@ -77,7 +84,7 @@ def Searching_mark(query):
     df = pd.DataFrame(d)
     df = df.drop_duplicates()
     vector = tfidf.fit_transform(df['Title'].astype('U'))
-    query_vec = tfidf.transform([query])
+    query_vec = tfidf.transform([sentence])
     results = cosine_similarity(vector, query_vec).reshape((-1,))
     output = []
     for i in results.argsort()[-2:][::-1]:
@@ -142,8 +149,15 @@ def Getmark_data():
 
 
 def SearchingByTitle(query):
+    sequence = []
+    words = query.split()
+    index = 0
+    for i in words:
+        sequence.append(spell.correction(i))
+        index += 1
+    sentence = ' '.join(sequence)
     Title_vector = tfidf.fit_transform(data['Title'].astype('U'))
-    query_vec = tfidf.transform([query])
+    query_vec = tfidf.transform([sentence])
     results = cosine_similarity(Title_vector, query_vec).reshape((-1,))
     output = []
     for i in results.argsort()[-3:][::-1]:
@@ -156,8 +170,15 @@ def SearchingByTitle(query):
 
 
 def SearchingByIngredients(query):
+    sequence = []
+    words = query.split()
+    index = 0
+    for i in words:
+        sequence.append(spell.correction(i))
+        index += 1
+    sentence = ' '.join(sequence)
     Ingredients_vector = tfidf.fit_transform(data['Cleaned_Ingredients'].astype('U'))
-    query_vec = tfidf.transform([query])
+    query_vec = tfidf.transform([sentence])
     results = cosine_similarity(Ingredients_vector, query_vec).reshape((-1,))
     output = []
     for i in results.argsort()[-3:][::-1]:
@@ -213,4 +234,5 @@ def Login_user(username, password):
         return output
 
 # if __name__ == '__main__':
-# SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
+    # SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
+    # SearchingByIngredients("porkk becauss paek")
