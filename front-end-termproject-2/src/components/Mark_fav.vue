@@ -7,11 +7,11 @@
           <div>
             <div class="row">
               <div class="col-4">
-                <!-- <img
+                <img
                   class="img-responsive"
                   style="width: 100%"
                   :src="'FoodImages/' + fav_data.Image"
-                /> -->
+                />
               </div>
               <div class="col-8">
                 <div class="row">

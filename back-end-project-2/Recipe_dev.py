@@ -100,9 +100,11 @@ def Getmark_data():
     title = []
     recipe = []
     id = []
+    image = []
     correct_id = []
     correc_title = []
     correc_recipe = []
+    correc_image = []
     cursor = db.cursor()
     sql = '''
     SELECT title  FROM fav_recipe;
@@ -131,14 +133,25 @@ def Getmark_data():
         val = json.dumps(i)
         id.append(val)
 
+    sql4 = '''
+        SELECT image FROM fav_recipe;
+        '''
+    cursor.execute(sql4)
+    result4 = cursor.fetchall()
+    for i in result4:
+        val = json.dumps(i)
+        image.append(val)
+
     for i in id:
         correct_id.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
     for i in title:
         correc_title.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
     for i in recipe:
         correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+    for i in image:
+        correc_image.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"\r\])' + U'\xa8')))
 
-    d = {'id': correct_id, 'Title': correc_title, 'Recipe': correc_recipe}
+    d = {'id': correct_id, 'Title': correc_title, 'Recipe': correc_recipe, 'Image': correc_image}
     df = pd.DataFrame(d)
     df = df.drop_duplicates(subset=['Title'])
     json_result = df.to_json(orient="records")

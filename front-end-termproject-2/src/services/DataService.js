@@ -14,6 +14,7 @@ export default {
     return apiClient.post("/mark_data", {
       title: data.title,
       recipe: data.recipe,
+      image: data.image
     });
   },
   Get_MarktoData() {

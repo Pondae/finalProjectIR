@@ -83,6 +83,7 @@ export default {
       var myObj = {
         title: this.dataName.Title,
         recipe: this.dataName.Recipe,
+        image: this.dataName.Image
       };
       if (this.checked === false) {
         this.GStore.Keepdata.push(myObj);

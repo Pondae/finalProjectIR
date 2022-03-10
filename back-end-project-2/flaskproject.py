@@ -1,8 +1,6 @@
-
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
-
 
 app = Flask(__name__)
 
@@ -47,14 +45,15 @@ def GettingMark_data():
 def Mark_data():
     title = request.json['title']
     recipe = request.json['recipe']
+    image = request.json['image']
     cursor = db.cursor()
     sql = '''
-    INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`) VALUES (%s, %s);
+    INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`, `image`) VALUES (%s, %s, %s);
     '''
-    val = (title, recipe)
+    val = (title, recipe, image)
     cursor.execute(sql, val)
-    print('Adding mark fav: ' + str(title) + 'and ' + str(recipe))
-    return 'Adding mark fav: ' + str(title) + 'and ' + str(recipe)
+    print('Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image))
+    return 'Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image)
 
 
 @app.route("/unmark_data", methods=["POST"])
