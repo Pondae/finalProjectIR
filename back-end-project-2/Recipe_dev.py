@@ -12,7 +12,6 @@ spell = SpellChecker()
 
 a = spell.correction("purk")
 
-
 data = pd.read_csv('resource/Food_ingredients.csv')
 data.drop_duplicates()
 
@@ -38,7 +37,7 @@ tfidf = TfidfVectorizer()
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="",
+    password="0808601871",
     database='foodrecipe'
 )
 
@@ -161,9 +160,12 @@ def SearchingByTitle(query):
     results = cosine_similarity(Title_vector, query_vec).reshape((-1,))
     output = []
     for i in results.argsort()[-3:][::-1]:
+        image = data.iloc[i, 4] + str('.jpg')
         output.append(
             {"Title": data.iloc[i, 1],
-             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8'))
+             "Recipe": data.iloc[i, 3].translate(
+                 str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')),
+             "Image": image
              }
         )
     return output
@@ -182,9 +184,12 @@ def SearchingByIngredients(query):
     results = cosine_similarity(Ingredients_vector, query_vec).reshape((-1,))
     output = []
     for i in results.argsort()[-3:][::-1]:
+        image = data.iloc[i, 4] + str('.jpg')
         output.append(
             {"Title": data.iloc[i, 1],
-             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8'))
+             "Recipe": data.iloc[i, 3].translate(
+                 str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')),
+             "Image": image
              }
         )
     return output
@@ -234,5 +239,5 @@ def Login_user(username, password):
         return output
 
 # if __name__ == '__main__':
-    # SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
-    # SearchingByIngredients("porkk becauss paek")
+# SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
+# SearchingByIngredients("porkk becauss paek")
