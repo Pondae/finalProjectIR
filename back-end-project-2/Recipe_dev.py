@@ -12,7 +12,6 @@ spell = SpellChecker()
 
 a = spell.correction("purk")
 
-
 data = pd.read_csv('resource/Food_ingredients.csv')
 data.drop_duplicates()
 
@@ -38,7 +37,7 @@ tfidf = TfidfVectorizer()
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="",
+    password="0808601871",
     database='foodrecipe'
 )
 
@@ -101,9 +100,11 @@ def Getmark_data():
     title = []
     recipe = []
     id = []
+    image = []
     correct_id = []
     correc_title = []
     correc_recipe = []
+    correc_image = []
     cursor = db.cursor()
     sql = '''
     SELECT title  FROM fav_recipe;
@@ -132,14 +133,25 @@ def Getmark_data():
         val = json.dumps(i)
         id.append(val)
 
+    sql4 = '''
+        SELECT image FROM fav_recipe;
+        '''
+    cursor.execute(sql4)
+    result4 = cursor.fetchall()
+    for i in result4:
+        val = json.dumps(i)
+        image.append(val)
+
     for i in id:
         correct_id.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
     for i in title:
         correc_title.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
     for i in recipe:
         correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+    for i in image:
+        correc_image.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"\r\])' + U'\xa8')))
 
-    d = {'id': correct_id, 'Title': correc_title, 'Recipe': correc_recipe}
+    d = {'id': correct_id, 'Title': correc_title, 'Recipe': correc_recipe, 'Image': correc_image}
     df = pd.DataFrame(d)
     df = df.drop_duplicates(subset=['Title'])
     json_result = df.to_json(orient="records")
@@ -160,12 +172,21 @@ def SearchingByTitle(query):
     query_vec = tfidf.transform([sentence])
     results = cosine_similarity(Title_vector, query_vec).reshape((-1,))
     output = []
-    for i in results.argsort()[-3:][::-1]:
-        output.append(
-            {"Title": data.iloc[i, 1],
-             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8'))
-             }
-        )
+    for i in results.argsort()[:][::-1]:
+        if results[i] >= 0.1:
+            print(results[i])
+            print(data.iloc[i, 4])
+            print(data.iloc[i, 1])
+            print(data.iloc[i, 3])
+            print()
+            image = data.iloc[i, 4] + str('.jpg')
+            output.append(
+                {"Title": data.iloc[i, 1],
+                 "Recipe": data.iloc[i, 3].translate(
+                     str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')),
+                 "Image": image
+                 }
+            )
     return output
 
 
@@ -181,12 +202,21 @@ def SearchingByIngredients(query):
     query_vec = tfidf.transform([sentence])
     results = cosine_similarity(Ingredients_vector, query_vec).reshape((-1,))
     output = []
-    for i in results.argsort()[-3:][::-1]:
-        output.append(
-            {"Title": data.iloc[i, 1],
-             "Recipe": data.iloc[i, 3].translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8'))
-             }
-        )
+    for i in results.argsort()[:][::-1]:
+        if results[i] >= 0.1:
+            print(results[i])
+            print(data.iloc[i, 4])
+            print(data.iloc[i, 1])
+            print(data.iloc[i, 3])
+            print()
+            image = data.iloc[i, 4] + str('.jpg')
+            output.append(
+                {"Title": data.iloc[i, 1],
+                 "Recipe": data.iloc[i, 3].translate(
+                     str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')),
+                 "Image": image
+                 }
+            )
     return output
 
 
@@ -234,5 +264,5 @@ def Login_user(username, password):
         return output
 
 # if __name__ == '__main__':
-    # SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
-    # SearchingByIngredients("porkk becauss paek")
+# SearchingByTitle("Miso-Butter Roast Chicken With Acorn Squash Panzanella")
+# SearchingByIngredients("porkk becauss paek")
