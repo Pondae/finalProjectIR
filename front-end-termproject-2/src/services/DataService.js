@@ -7,7 +7,7 @@ export default {
   },
   UnMarktoData(data) {
     return apiClient.post("/unmark_data", {
-      id : data.id
+      id: data.id,
     });
   },
   MarktoData(data) {
