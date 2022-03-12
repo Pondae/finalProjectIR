@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
+import mysql.connector
 
 app = Flask(__name__)
 
@@ -43,6 +44,8 @@ def GettingMark_data():
 @app.route("/mark_data", methods=["POST"])
 @cross_origin()
 def Mark_data():
+    latest_id = []
+    correct_latest_id = []
     title = request.json['title']
     recipe = request.json['recipe']
     image = request.json['image']
@@ -52,6 +55,31 @@ def Mark_data():
     '''
     val = (title, recipe, image)
     cursor.execute(sql, val)
+    sql_latest_id = '''
+        SELECT id_fav_recipe FROM fav_recipe ORDER BY id_fav_recipe DESC LIMIT 1; 
+    '''
+    cursor.execute(sql_latest_id)
+    result = cursor.fetchall()
+    for i in result:
+        val = json.dumps(i)
+        latest_id.append(val)
+
+    for i in latest_id:
+        correct_latest_id.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+
+    sql_insert_mid = '''
+        INSERT INTO `foodrecipe`.`user_with_fav` ( `id_fav_recipe`, `id_user`) VALUES (%s, %s);
+        '''
+    val2 = (correct_latest_id[len(correct_latest_id) - 1], 2)
+    cursor.execute(sql_insert_mid, val2)
+    # db.commit()
+    #     '''
+    #     SELECT middle.id_fav_recipe  FROM 
+    # user as person
+    # left join user_with_fav as middle
+    # on person.idUser = middle.id_user
+    # where person.idUser = 2;
+    #     '''
     print('Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image))
     return 'Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image)
 
