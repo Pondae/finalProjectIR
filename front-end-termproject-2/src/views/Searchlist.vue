@@ -125,8 +125,7 @@ export default {
       this.data.forEach((element) => {
         Service.MarktoData(element);
       });
-
-      this.$router.push({ name: "MarkProfile" });
+      this.$router.push({ name: 'MarkProfile' });
     },
     searchName() {
       console.log(this.queryName);

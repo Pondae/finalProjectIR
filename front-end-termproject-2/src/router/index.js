@@ -2,11 +2,13 @@ import { createRouter, createWebHistory } from "vue-router";
 import Searchlist from "../views/Searchlist.vue";
 import Login from "../views/Login.vue";
 import MarkProfile from "../views/MarkProfile.vue";
+
 const routes = [
   {
     path: "/markProfile",
     name: "MarkProfile",
     component: MarkProfile,
+    props: true,
   },
   {
     path: "/",

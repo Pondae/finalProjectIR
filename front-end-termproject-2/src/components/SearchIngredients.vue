@@ -47,7 +47,12 @@
                     />
                   </div>
                 </div>
-                <h5 class="card-title"></h5>
+                <h5 class="card-title">Ingredients</h5>
+                <p class="card-text">
+                  {{ dataIngredient.Ingredients }}
+                </p>
+                <br />
+                <h5 class="card-title">Recipe</h5>
                 <p class="card-text">
                   {{ dataIngredient.Recipe }}
                 </p>
@@ -81,9 +86,11 @@ export default {
   methods: {
     AddData() {
       var myObj = {
+        userid: this.GStore.currentUserid,
+        Ingredients:this.dataIngredient.Ingredients,
         title: this.dataIngredient.Title,
         recipe: this.dataIngredient.Recipe,
-        image: this.dataIngredient.Image
+        image: this.dataIngredient.Image,
       };
       if (this.checked === false) {
         this.GStore.Keepdata.push(myObj);

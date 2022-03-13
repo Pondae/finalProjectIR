@@ -7,4 +7,6 @@ export default reactive({
   Keepdata: [],
   Deldata: [],
   currentUser: null,
+  currentUserid: null,
+  currentmarkdata: null
 });

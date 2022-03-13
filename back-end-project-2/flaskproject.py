@@ -2,6 +2,16 @@ from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
 
+# import json
+# import mysql.connector
+#
+# db = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     password="0808601871",
+#     database='foodrecipe'
+# )
+
 app = Flask(__name__)
 
 
@@ -20,7 +30,9 @@ def Ingredient():
 @app.route("/mark_search", methods=["POST"])
 @cross_origin()
 def Mark_Search():
-    return jsonify(Searching_mark(request.json['query']))
+    query = request.json['query']
+    userid = request.json['userid']
+    return jsonify(Searching_mark(query, userid))
 
 
 @app.route("/Login", methods=["POST"])
@@ -34,10 +46,10 @@ def Login():
     return jsonify(Login_user(username, password))
 
 
-@app.route("/get_mark_data", methods=["GET"])
+@app.route("/get_mark_data/<int:userid>", methods=["GET"])
 @cross_origin()
-def GettingMark_data():
-    return jsonify(Getmark_data())
+def GettingMark_data(userid):
+    return jsonify(Getmark_data(userid))
 
 
 @app.route("/mark_data", methods=["POST"])
@@ -46,14 +58,35 @@ def Mark_data():
     title = request.json['title']
     recipe = request.json['recipe']
     image = request.json['image']
+    userid = request.json['userid']
+    Ingredients = request.json['Ingredients']
+    fav_id = []
     cursor = db.cursor()
     sql = '''
-    INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`, `image`) VALUES (%s, %s, %s);
+    INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`, `image`,`Ingredients`) VALUES (%s, %s, %s,%s);
     '''
-    val = (title, recipe, image)
+    val = (title, recipe, image, Ingredients)
     cursor.execute(sql, val)
-    print('Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image))
-    return 'Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image)
+    sql_latest_id = '''
+        SELECT id_fav_recipe FROM fav_recipe ORDER BY id_fav_recipe DESC LIMIT 1; 
+    '''
+    cursor.execute(sql_latest_id)
+    result = cursor.fetchall()
+    for i in result:
+        val = json.dumps(i)
+        fav_id.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+
+    tamp = fav_id[0]
+    sql_insert_mid = '''
+        INSERT INTO `foodrecipe`.`user_with_fav` ( `id_fav_recipe`, `id_user`) VALUES (%s, %s);
+        '''
+    val2 = (tamp, userid)
+    cursor.execute(sql_insert_mid, val2)
+    fav_id.pop()
+    # db.commit()
+
+    print('user id: ' + str(userid) + ' Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image))
+    return 'user id: ' + str(userid) + ' Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image)
 
 
 @app.route("/unmark_data", methods=["POST"])

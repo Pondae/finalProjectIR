@@ -41,8 +41,12 @@
                     />
                   </div>
                 </div>
-
-                <h5 class="card-title"></h5>
+                <h5 class="card-title">Ingredients</h5>
+                <p class="card-text">
+                  {{ fav_data.Ingredients }}
+                </p>
+                <br />
+                <h5 class="card-title">Recipe</h5>
                 <p class="card-text">
                   {{ fav_data.Recipe }}
                 </p>
@@ -76,7 +80,7 @@ export default {
   methods: {
     AddData() {
       var myObj = {
-        id: this.fav_data.id,
+        id: this.fav_data.id_mark,
       };
       if (this.checked === false) {
         this.GStore.Deldata.push(myObj);

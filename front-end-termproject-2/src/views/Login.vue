@@ -58,6 +58,7 @@ export default {
       };
       Service.Login(data)
         .then((response) => {
+          this.GStore.currentUserid = response.data[0].userid;
           this.GStore.currentUser = response.data[0].user;
           this.checked = response.data[0].check;
           console.log(this.checked);

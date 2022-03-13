@@ -75,12 +75,15 @@ export default {
       query: "",
       search_data: null,
       data: null,
+      id: null,
+      userid: null
     };
   },
   methods: {
     searchfav() {
       console.log(this.query);
-      Service.SearchFav(this.query)
+      this.userid = this.GStore.currentUserid
+      Service.SearchFav(this.query,this.userid)
         .then((response) => {
           this.search_data = response.data;
         })
@@ -99,7 +102,9 @@ export default {
     },
   },
   created() {
-    Service.Get_MarktoData()
+    this.id = this.GStore.currentUserid
+    console.log(this.id)
+    Service.Get_MarktoData(this.id)
       .then((response) => {
         this.fav_data = response.data;
       })

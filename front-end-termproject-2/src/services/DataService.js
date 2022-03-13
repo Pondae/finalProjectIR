@@ -12,18 +12,21 @@ export default {
   },
   MarktoData(data) {
     return apiClient.post("/mark_data", {
+      userid : data.userid,
+      Ingredients: data.Ingredients,    
       title: data.title,
       recipe: data.recipe,
       image: data.image
     });
   },
-  Get_MarktoData() {
-    return apiClient.get("/get_mark_data");
+  Get_MarktoData(userid) {
+    return apiClient.get("/get_mark_data/" + userid);
   },
-  SearchFav(query) {
+  SearchFav(query,userid) {
     console.log("SearchFav");
     return apiClient.post("/mark_search", {
       query: query,
+      userid : userid
     });
   },
   SearchName(query) {
