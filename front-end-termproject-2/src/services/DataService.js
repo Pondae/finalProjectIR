@@ -12,7 +12,8 @@ export default {
   },
   MarktoData(data) {
     return apiClient.post("/mark_data", {
-      userid : data.userid,    
+      userid : data.userid,
+      Ingredients: data.Ingredients,    
       title: data.title,
       recipe: data.recipe,
       image: data.image

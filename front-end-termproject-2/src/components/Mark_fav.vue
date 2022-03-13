@@ -41,8 +41,12 @@
                     />
                   </div>
                 </div>
-
-                <h5 class="card-title"></h5>
+                <h5 class="card-title">Ingredients</h5>
+                <p class="card-text">
+                  {{ fav_data.Ingredients }}
+                </p>
+                <br />
+                <h5 class="card-title">Recipe</h5>
                 <p class="card-text">
                   {{ fav_data.Recipe }}
                 </p>

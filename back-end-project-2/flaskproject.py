@@ -56,12 +56,13 @@ def Mark_data():
     recipe = request.json['recipe']
     image = request.json['image']
     userid = request.json['userid']
+    Ingredients = request.json['Ingredients']
     fav_id = []
     cursor = db.cursor()
     sql = '''
-    INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`, `image`) VALUES (%s, %s, %s);
+    INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`, `image`,`Ingredients`) VALUES (%s, %s, %s,%s);
     '''
-    val = (title, recipe, image)
+    val = (title, recipe, image,Ingredients)
     cursor.execute(sql, val)
     sql_latest_id = '''
         SELECT id_fav_recipe FROM fav_recipe ORDER BY id_fav_recipe DESC LIMIT 1; 

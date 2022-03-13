@@ -97,6 +97,7 @@ def Getmark_data(userid):
     recipe = []
     id_mark = []
     image = []
+    ing = []
     cursor = db.cursor()
     sql_getmark = '''
         SELECT middle.id_fav_recipe  FROM
@@ -121,6 +122,15 @@ def Getmark_data(userid):
         for j in result:
             val = json.dumps(j)
             title.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+        sql5 = '''
+                SELECT Ingredients  FROM fav_recipe
+                where id_fav_recipe = %s;
+                '''
+        cursor.execute(sql5, (i,))
+        result = cursor.fetchall()
+        for j in result:
+            val = json.dumps(j)
+            ing.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
         sql2 = '''
             SELECT recipe FROM fav_recipe
             where id_fav_recipe = %s;
@@ -151,7 +161,7 @@ def Getmark_data(userid):
             val = json.dumps(j)
             image.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"\r\])' + U'\xa8')))
 
-    d = {'id_mark': id_mark, 'Title': title, 'Recipe': recipe, 'Image': image}
+    d = {'id_mark': id_mark, 'Title': title, 'Recipe': recipe, 'Image': image, 'Ingredients': ing}
     df = pd.DataFrame(d)
     df = df.drop_duplicates(subset=['Title'])
     json_result = df.to_json(orient="records")

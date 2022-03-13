@@ -88,6 +88,7 @@ export default {
       console.log(this.GStore.currentUserid);
       var myObj = {
         userid: this.GStore.currentUserid,
+        Ingredients: this.dataName.Ingredients,
         title: this.dataName.Title,
         recipe: this.dataName.Recipe,
         image: this.dataName.Image,
