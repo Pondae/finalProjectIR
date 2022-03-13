@@ -75,13 +75,15 @@ export default {
       query: "",
       search_data: null,
       data: null,
-      id: null
+      id: null,
+      userid: null
     };
   },
   methods: {
     searchfav() {
       console.log(this.query);
-      Service.SearchFav(this.query)
+      this.userid = this.GStore.currentUserid
+      Service.SearchFav(this.query,this.userid)
         .then((response) => {
           this.search_data = response.data;
         })

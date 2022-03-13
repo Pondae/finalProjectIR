@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
+
 # import json
 # import mysql.connector
 #
@@ -29,7 +30,9 @@ def Ingredient():
 @app.route("/mark_search", methods=["POST"])
 @cross_origin()
 def Mark_Search():
-    return jsonify(Searching_mark(request.json['query']))
+    query = request.json['query']
+    userid = request.json['userid']
+    return jsonify(Searching_mark(query, userid))
 
 
 @app.route("/Login", methods=["POST"])
@@ -62,7 +65,7 @@ def Mark_data():
     sql = '''
     INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`, `image`,`Ingredients`) VALUES (%s, %s, %s,%s);
     '''
-    val = (title, recipe, image,Ingredients)
+    val = (title, recipe, image, Ingredients)
     cursor.execute(sql, val)
     sql_latest_id = '''
         SELECT id_fav_recipe FROM fav_recipe ORDER BY id_fav_recipe DESC LIMIT 1; 

@@ -42,10 +42,13 @@ db = mysql.connector.connect(
 )
 
 
-def Searching_mark(query):
+def Searching_mark(query, userid):
+    id = []
     title = []
     recipe = []
-    cursor = db.cursor()
+    id_mark = []
+    image = []
+    ing = []
     sequence = []
     words = query.split()
     index = 0
@@ -54,35 +57,84 @@ def Searching_mark(query):
         index += 1
     sentence = ' '.join(sequence)
 
-    sql = '''
-       SELECT title FROM fav_recipe;
-       '''
-    cursor.execute(sql)
+    cursor = db.cursor()
+    sql_getmark = '''
+          SELECT middle.id_fav_recipe  FROM
+          user as person
+          left join user_with_fav as middle
+          on person.idUser = middle.id_user
+          where person.idUser = %s;
+          '''
+    cursor.execute(sql_getmark, (userid,))
     result = cursor.fetchall()
     for i in result:
         val = json.dumps(i)
-        title.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+        id.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
-    sql2 = '''
-           SELECT recipe FROM fav_recipe;
+    for i in id:
+        sql = '''
+        SELECT title  FROM fav_recipe
+        where id_fav_recipe = %s;
+        '''
+        cursor.execute(sql, (i,))
+        result = cursor.fetchall()
+        for j in result:
+            val = json.dumps(j)
+            title.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+        sql5 = '''
+                SELECT Ingredients  FROM fav_recipe
+                where id_fav_recipe = %s;
+                '''
+        cursor.execute(sql5, (i,))
+        result = cursor.fetchall()
+        for j in result:
+            val = json.dumps(j)
+            ing.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+        sql2 = '''
+            SELECT recipe FROM fav_recipe
+            where id_fav_recipe = %s;
+            '''
+        cursor.execute(sql2, (i,))
+        result2 = cursor.fetchall()
+        for j in result2:
+            val = json.dumps(j)
+            recipe.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+
+        sql3 = '''
+           SELECT id_fav_recipe FROM fav_recipe
+           where id_fav_recipe = %s;
            '''
-    cursor.execute(sql2)
-    result2 = cursor.fetchall()
-    for i in result2:
-        val = json.dumps(i)
-        recipe.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+        cursor.execute(sql3, (i,))
+        result3 = cursor.fetchall()
+        for j in result3:
+            val = json.dumps(j)
+            id_mark.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
-    d = {'Title': title, 'Recipe': recipe}
+        sql4 = '''
+            SELECT image FROM fav_recipe
+            where id_fav_recipe = %s;
+            '''
+        cursor.execute(sql4, (i,))
+        result4 = cursor.fetchall()
+        for j in result4:
+            val = json.dumps(j)
+            image.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"\r\])' + U'\xa8')))
+
+    d = {'id_mark': id_mark, 'Title': title, 'Recipe': recipe, 'Image': image, 'Ingredients': ing}
     df = pd.DataFrame(d)
-    df = df.drop_duplicates()
+    df = df.drop_duplicates(subset=['Title'])
+    output = []
     vector = tfidf.fit_transform(df['Title'].astype('U'))
     query_vec = tfidf.transform([sentence])
     results = cosine_similarity(vector, query_vec).reshape((-1,))
-    output = []
-    for i in results.argsort()[-2:][::-1]:
+
+    for i in results.argsort()[-5:][::-1]:
         output.append(
-            {"Title": df.iloc[i, 0],
-             "Recipe": df.iloc[i, 1]
+            {"id_mark": df.iloc[i, 0],
+             "Title": df.iloc[i, 1],
+             "Recipe": df.iloc[i, 2],
+             "Image": df.iloc[i, 3],
+             "Ingredients": df.iloc[i, 4],
              }
         )
     print(output)
