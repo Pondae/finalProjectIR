@@ -45,8 +45,6 @@ db = mysql.connector.connect(
 def Searching_mark(query):
     title = []
     recipe = []
-    correc_title = []
-    correc_recipe = []
     cursor = db.cursor()
     sequence = []
     words = query.split()
@@ -63,7 +61,7 @@ def Searching_mark(query):
     result = cursor.fetchall()
     for i in result:
         val = json.dumps(i)
-        title.append(val)
+        title.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
     sql2 = '''
            SELECT recipe FROM fav_recipe;
@@ -72,14 +70,9 @@ def Searching_mark(query):
     result2 = cursor.fetchall()
     for i in result2:
         val = json.dumps(i)
-        recipe.append(val)
+        recipe.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
-    for i in title:
-        correc_title.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
-    for i in recipe:
-        correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
-
-    d = {'Title': correc_title, 'Recipe': correc_recipe}
+    d = {'Title': title, 'Recipe': recipe}
     df = pd.DataFrame(d)
     df = df.drop_duplicates()
     vector = tfidf.fit_transform(df['Title'].astype('U'))
@@ -96,62 +89,69 @@ def Searching_mark(query):
     return output
 
 
-def Getmark_data():
+def Getmark_data(userid):
+    print('userid: ' + str(userid))
+    print(type(userid))
+    fav_id = []
     title = []
     recipe = []
-    id = []
+    id_mark = []
     image = []
-    correct_id = []
-    correc_title = []
-    correc_recipe = []
-    correc_image = []
     cursor = db.cursor()
-    sql = '''
-    SELECT title  FROM fav_recipe;
-    '''
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    for i in result:
-        val = json.dumps(i)
-        title.append(val)
-
-    sql2 = '''
-        SELECT recipe FROM fav_recipe;
+    sql_getmark = '''
+        SELECT middle.id_fav_recipe  FROM
+        user as person
+        left join user_with_fav as middle
+        on person.idUser = middle.id_user
+        where person.idUser = %s;
         '''
-    cursor.execute(sql2)
-    result2 = cursor.fetchall()
-    for i in result2:
+    cursor.execute(sql_getmark, (userid,))
+    result_fav_id = cursor.fetchall()
+    print('id of user' + str(result_fav_id))
+    for i in result_fav_id:
         val = json.dumps(i)
-        recipe.append(val)
-
-    sql3 = '''
-       SELECT id_fav_recipe FROM fav_recipe;
-       '''
-    cursor.execute(sql3)
-    result3 = cursor.fetchall()
-    for i in result3:
-        val = json.dumps(i)
-        id.append(val)
-
-    sql4 = '''
-        SELECT image FROM fav_recipe;
+        fav_id.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+    for i in fav_id:
+        sql = '''
+        SELECT title  FROM fav_recipe
+        where id_fav_recipe = %s;
         '''
-    cursor.execute(sql4)
-    result4 = cursor.fetchall()
-    for i in result4:
-        val = json.dumps(i)
-        image.append(val)
+        cursor.execute(sql, (i,))
+        result = cursor.fetchall()
+        for j in result:
+            val = json.dumps(j)
+            title.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
+        sql2 = '''
+            SELECT recipe FROM fav_recipe
+            where id_fav_recipe = %s;
+            '''
+        cursor.execute(sql2, (i,))
+        result2 = cursor.fetchall()
+        for j in result2:
+            val = json.dumps(j)
+            recipe.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
-    for i in id:
-        correct_id.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
-    for i in title:
-        correc_title.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
-    for i in recipe:
-        correc_recipe.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
-    for i in image:
-        correc_image.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"\r\])' + U'\xa8')))
+        sql3 = '''
+           SELECT id_fav_recipe FROM fav_recipe
+           where id_fav_recipe = %s;
+           '''
+        cursor.execute(sql3, (i,))
+        result3 = cursor.fetchall()
+        for j in result3:
+            val = json.dumps(j)
+            id_mark.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
-    d = {'id': correct_id, 'Title': correc_title, 'Recipe': correc_recipe, 'Image': correc_image}
+        sql4 = '''
+            SELECT image FROM fav_recipe
+            where id_fav_recipe = %s;
+            '''
+        cursor.execute(sql4, (i,))
+        result4 = cursor.fetchall()
+        for j in result4:
+            val = json.dumps(j)
+            image.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"\r\])' + U'\xa8')))
+
+    d = {'id_mark': id_mark, 'Title': title, 'Recipe': recipe, 'Image': image}
     df = pd.DataFrame(d)
     df = df.drop_duplicates(subset=['Title'])
     json_result = df.to_json(orient="records")
@@ -221,31 +221,47 @@ def SearchingByIngredients(query):
 
 
 def Login_user(username, password):
+    array_user = []
     output = []
-    if username == 'kong' and password == 'kong1234':
+    cursor = db.cursor()
+    sql = '''
+        SELECT idUser FROM foodrecipe.user
+        where username = %s;
+        '''
+    val = (username,)
+    cursor.execute(sql, val)
+    result = cursor.fetchall()
+    for i in result:
+        val = json.dumps(i)
+        array_user.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"\r\])' + U'\xa8')))
+
+    if username == 'kong' and password == '1234':
         check = True
         output.append(
             {
+                'userid': array_user[len(array_user) - 1],
                 'user': username,
                 'password': password,
                 'check': check
             }
         )
         return output
-    elif username == 'fax' and password == 'fax1234':
+    elif username == 'fax' and password == '1234':
         check = True
         output.append(
             {
+                'userid': array_user[len(array_user) - 1],
                 'user': username,
                 'password': password,
                 'check': check
             }
         )
         return output
-    elif username == 'plook' and password == 'plook1234':
+    elif username == 'plook' and password == '1234':
         check = True
         output.append(
             {
+                'userid': array_user[len(array_user) - 1],
                 'user': username,
                 'password': password,
                 'check': check
@@ -256,6 +272,7 @@ def Login_user(username, password):
         check = False
         output.append(
             {
+                'userid': '',
                 'user': username,
                 'password': password,
                 'check': check

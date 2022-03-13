@@ -81,6 +81,7 @@ export default {
   methods: {
     AddData() {
       var myObj = {
+        userid: this.GStore.currentUserid,
         title: this.dataIngredient.Title,
         recipe: this.dataIngredient.Recipe,
         image: this.dataIngredient.Image

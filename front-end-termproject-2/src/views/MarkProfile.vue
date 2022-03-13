@@ -75,6 +75,7 @@ export default {
       query: "",
       search_data: null,
       data: null,
+      id: null
     };
   },
   methods: {
@@ -99,7 +100,9 @@ export default {
     },
   },
   created() {
-    Service.Get_MarktoData()
+    this.id = this.GStore.currentUserid
+    console.log(this.id)
+    Service.Get_MarktoData(this.id)
       .then((response) => {
         this.fav_data = response.data;
       })

@@ -79,8 +79,10 @@ export default {
   },
   methods: {
     AddData() {
-      console.log(this.image);
+      console.log('user id')
+      console.log(this.GStore.currentUserid)
       var myObj = {
+        userid: this.GStore.currentUserid,
         title: this.dataName.Title,
         recipe: this.dataName.Recipe,
         image: this.dataName.Image

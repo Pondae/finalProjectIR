@@ -1,7 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from Recipe_dev import *
-import mysql.connector
+# import json
+# import mysql.connector
+#
+# db = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     password="0808601871",
+#     database='foodrecipe'
+# )
 
 app = Flask(__name__)
 
@@ -35,20 +43,20 @@ def Login():
     return jsonify(Login_user(username, password))
 
 
-@app.route("/get_mark_data", methods=["GET"])
+@app.route("/get_mark_data/<int:userid>", methods=["GET"])
 @cross_origin()
-def GettingMark_data():
-    return jsonify(Getmark_data())
+def GettingMark_data(userid):
+    return jsonify(Getmark_data(userid))
 
 
 @app.route("/mark_data", methods=["POST"])
 @cross_origin()
 def Mark_data():
-    latest_id = []
-    correct_latest_id = []
     title = request.json['title']
     recipe = request.json['recipe']
     image = request.json['image']
+    userid = request.json['userid']
+    fav_id = []
     cursor = db.cursor()
     sql = '''
     INSERT INTO `foodrecipe`.`fav_recipe` ( `title`, `recipe`, `image`) VALUES (%s, %s, %s);
@@ -62,26 +70,19 @@ def Mark_data():
     result = cursor.fetchall()
     for i in result:
         val = json.dumps(i)
-        latest_id.append(val)
+        fav_id.append(val.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
 
-    for i in latest_id:
-        correct_latest_id.append(i.translate(str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')))
-
+    tamp = fav_id[0]
     sql_insert_mid = '''
         INSERT INTO `foodrecipe`.`user_with_fav` ( `id_fav_recipe`, `id_user`) VALUES (%s, %s);
         '''
-    val2 = (correct_latest_id[len(correct_latest_id) - 1], 2)
+    val2 = (tamp, userid)
     cursor.execute(sql_insert_mid, val2)
+    fav_id.pop()
     # db.commit()
-    #     '''
-    #     SELECT middle.id_fav_recipe  FROM 
-    # user as person
-    # left join user_with_fav as middle
-    # on person.idUser = middle.id_user
-    # where person.idUser = 2;
-    #     '''
-    print('Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image))
-    return 'Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image)
+
+    print('user id: ' + str(userid) + ' Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image))
+    return 'user id: ' + str(userid) + ' Adding mark fav: ' + str(title) + 'and ' + str(recipe) + 'and ' + str(image)
 
 
 @app.route("/unmark_data", methods=["POST"])
