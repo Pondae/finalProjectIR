@@ -129,14 +129,15 @@ def Searching_mark(query, userid):
     results = cosine_similarity(vector, query_vec).reshape((-1,))
 
     for i in results.argsort()[-5:][::-1]:
-        output.append(
-            {"id_mark": df.iloc[i, 0],
-             "Title": df.iloc[i, 1],
-             "Recipe": df.iloc[i, 2],
-             "Image": df.iloc[i, 3],
-             "Ingredients": df.iloc[i, 4],
-             }
-        )
+        if results[i] >= 0.1:
+            output.append(
+                {"id_mark": df.iloc[i, 0],
+                 "Title": df.iloc[i, 1],
+                 "Recipe": df.iloc[i, 2],
+                 "Image": df.iloc[i, 3],
+                 "Ingredients": df.iloc[i, 4],
+                 }
+            )
     print(output)
     return output
 
