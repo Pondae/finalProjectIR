@@ -172,7 +172,7 @@ def SearchingByTitle(query):
     query_vec = tfidf.transform([sentence])
     results = cosine_similarity(Title_vector, query_vec).reshape((-1,))
     output = []
-    for i in results.argsort()[:][::-1]:
+    for i in results.argsort()[-20:][::-1]:
         if results[i] >= 0.1:
             print(results[i])
             print(data.iloc[i, 4])
@@ -183,6 +183,8 @@ def SearchingByTitle(query):
             output.append(
                 {"Title": data.iloc[i, 1],
                  "Recipe": data.iloc[i, 3].translate(
+                     str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')),
+                 "Ingredients": data.iloc[i, 2].translate(
                      str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')),
                  "Image": image
                  }
@@ -202,7 +204,7 @@ def SearchingByIngredients(query):
     query_vec = tfidf.transform([sentence])
     results = cosine_similarity(Ingredients_vector, query_vec).reshape((-1,))
     output = []
-    for i in results.argsort()[:][::-1]:
+    for i in results.argsort()[-20:][::-1]:
         if results[i] >= 0.1:
             print(results[i])
             print(data.iloc[i, 4])
@@ -213,6 +215,8 @@ def SearchingByIngredients(query):
             output.append(
                 {"Title": data.iloc[i, 1],
                  "Recipe": data.iloc[i, 3].translate(
+                     str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')),
+                 "Ingredients": data.iloc[i, 2].translate(
                      str.maketrans('', '', '([$\'_&+\n?@\[\]#|<>^*()%\\!"-\r\])' + U'\xa8')),
                  "Image": image
                  }

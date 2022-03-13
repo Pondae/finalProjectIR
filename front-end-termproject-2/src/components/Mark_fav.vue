@@ -76,7 +76,7 @@ export default {
   methods: {
     AddData() {
       var myObj = {
-        id: this.fav_data.id,
+        id: this.fav_data.id_mark,
       };
       if (this.checked === false) {
         this.GStore.Deldata.push(myObj);
