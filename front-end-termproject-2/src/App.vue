@@ -1,13 +1,16 @@
 <template>
   <nav class="navbar">
-    <router-link to="searchlist/" class="nav-link" v-if="GStore.currentUser">
+    <router-link to="/searchlist" class="nav-link" v-if="GStore.currentUser">
       <h5 id="meal">Search Meal</h5>
     </router-link>
+    
+     <router-link to="/" class="nav-link" >
     <h5 v-if="!GStore.currentUser" id="meal">Must login</h5>
+     </router-link>
 
     <div class="colum" v-if="GStore.currentUser">
-      <router-link to="/markProfile" class="nav-link" >
-        <span style="font-weight: bold; color:white;">
+      <router-link to="/markProfile" class="nav-link">
+        <span style="font-weight: bold; color: white">
           {{ GStore.currentUser }}
         </span>
       </router-link>

@@ -11,18 +11,39 @@
       <div class="card-body">
         <span>
           <div>
-            <h4>
-              Food Title: <span id="title">{{ search_data.Title }}</span>
-            </h4>
+            <div class="row">
+              <div class="col-4">
+                <img
+                  class="img-responsive"
+                  style="width: 100%"
+                  :src="'FoodImages/' + search_data.Image"
+                />
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-6">
+                    <h4>
+                      Food Title: <span id="title">{{ search_data.Title }}</span>
+                    </h4>
+                  </div>
+                  <div class="col-6"></div>
+                </div>
+                <h5 class="card-title">Ingredients</h5>
+                <p class="card-text">
+                  {{ search_data.Ingredients }}
+                </p>
+                <br />
+                <h5 class="card-title">Recipe</h5>
+                <p class="card-text">
+                  {{ search_data.Recipe }}
+                </p>
+              </div>
+            </div>
           </div>
-          <h5 class="card-title"></h5>
-          <p class="card-text">
-            {{ search_data.Recipe }}
-          </p>
         </span>
-        <br />
-        <br />
       </div>
+      <br />
+      <br />
     </div>
   </div>
   <br />

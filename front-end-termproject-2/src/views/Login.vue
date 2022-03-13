@@ -51,7 +51,6 @@ export default {
   },
 
   methods: {
-
     onLogin() {
       let data = {
         username: this.username,
@@ -59,6 +58,7 @@ export default {
       };
       Service.Login(data)
         .then((response) => {
+          this.GStore.currentUserid = response.data[0].userid;
           this.GStore.currentUser = response.data[0].user;
           this.checked = response.data[0].check;
           console.log(this.checked);
@@ -66,9 +66,8 @@ export default {
             this.$router.push({
               name: "Searchlist",
             });
-          }
-          else{
-                location.reload();
+          } else {
+            location.reload();
           }
         })
         .catch((error) => {

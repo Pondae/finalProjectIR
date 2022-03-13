@@ -75,12 +75,15 @@ export default {
       query: "",
       search_data: null,
       data: null,
+      id: null,
+      userid: null
     };
   },
   methods: {
     searchfav() {
       console.log(this.query);
-      Service.SearchFav(this.query)
+      this.userid = this.GStore.currentUserid
+      Service.SearchFav(this.query,this.userid)
         .then((response) => {
           this.search_data = response.data;
         })
@@ -90,16 +93,18 @@ export default {
     },
     unmarktoDatabase() {
       this.data = this.GStore.Deldata;
-      console.log(this.data)
+      console.log(this.data);
       this.GStore.Deldata = [];
       this.data.forEach((element) => {
         Service.UnMarktoData(element);
       });
-       this.$router.push({ name: "Searchlist" });
+      this.$router.push({ name: "Searchlist" });
     },
   },
   created() {
-    Service.Get_MarktoData()
+    this.id = this.GStore.currentUserid
+    console.log(this.id)
+    Service.Get_MarktoData(this.id)
       .then((response) => {
         this.fav_data = response.data;
       })

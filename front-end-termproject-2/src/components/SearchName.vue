@@ -12,40 +12,56 @@
         <span>
           <div>
             <div class="row">
-              <div class="col-6">
-                <h4>
-                  Food Title: <span id="title">{{ dataName.Title }}</span>
-                </h4>
-              </div>
-              <div class="col-6" id="check">
-                <div v-if="!checked">
-                  <h7 id="mark">mark</h7>
-                  <input
-                    v-if="!checked"
-                    type="checkbox"
-                    id="checkbox"
-                    v-model="checked"
-                    @input="AddData"
-                  />
-                </div>
-                <h7 id="mark">unmark</h7>
-                <input
-                  type="checkbox"
-                  id="checkbox"
-                  v-model="checked"
-                  @input="AddData"
+              <div class="col-4">
+                <img
+                  class="img-responsive"
+                  style="width: 100%"
+                  :src="'FoodImages/' + dataName.Image"
                 />
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-6">
+                    <h4>
+                      Food Title: <span id="title">{{ dataName.Title }}</span>
+                    </h4>
+                  </div>
+                  <div class="col-6" id="check">
+                    <div v-if="!checked">
+                      <h7 id="mark">mark</h7>
+                      <input
+                        v-if="!checked"
+                        type="checkbox"
+                        id="checkbox"
+                        v-model="checked"
+                        @input="AddData"
+                      />
+                    </div>
+                    <h7 id="mark">unmark</h7>
+                    <input
+                      type="checkbox"
+                      id="checkbox"
+                      v-model="checked"
+                      @input="AddData"
+                    />
+                  </div>
+                </div>
+                <h5 class="card-title">Ingredients</h5>
+                <p class="card-text">
+                  {{ dataName.Ingredients }}
+                </p>
+                <br />
+                <h5 class="card-title">Recipe</h5>
+                <p class="card-text">
+                  {{ dataName.Recipe }}
+                </p>
               </div>
             </div>
           </div>
-          <h5 class="card-title"></h5>
-          <p class="card-text">
-            {{ dataName.Recipe }}
-          </p>
         </span>
-        <br />
-        <br />
       </div>
+      <br />
+      <br />
     </div>
   </div>
   <br />
@@ -68,9 +84,14 @@ export default {
   },
   methods: {
     AddData() {
+      console.log("user id");
+      console.log(this.GStore.currentUserid);
       var myObj = {
+        userid: this.GStore.currentUserid,
+        Ingredients: this.dataName.Ingredients,
         title: this.dataName.Title,
         recipe: this.dataName.Recipe,
+        image: this.dataName.Image,
       };
       if (this.checked === false) {
         this.GStore.Keepdata.push(myObj);

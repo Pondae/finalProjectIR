@@ -54,41 +54,43 @@
   </div>
 
   <br />
-  <div v-if="queryName">
-    <div id="content">
-      <br />
-      <h4 id="C">Search by Name</h4>
-      <form @submit.prevent="marktoDatabase">
-        <div class="butt">
-          <button v-if="queryName" type="submit" class="btn btn-light">
-            Add to Mark
-          </button>
-        </div>
-        <SearchName
-          :Keepvalue="Keepvalue"
-          :dataName="item"
-          v-for="item in dataName"
-          :key="item.id"
-        />
-      </form>
+  <div v-if="GStore.currentUser">
+    <div v-if="queryName">
+      <div id="content">
+        <br />
+        <h4 id="C">Search by Name</h4>
+        <form @submit.prevent="marktoDatabase">
+          <div class="butt">
+            <button v-if="queryName" type="submit" class="btn btn-light">
+              Add to Mark
+            </button>
+          </div>
+          <SearchName
+            :Keepvalue="Keepvalue"
+            :dataName="item"
+            v-for="item in dataName"
+            :key="item.id"
+          />
+        </form>
+      </div>
     </div>
-  </div>
-  <div v-if="queryIngredient">
-    <div id="content">
-      <br />
-      <h4 id="C">Search by Ingredient</h4>
-      <form @submit.prevent="marktoDatabase">
-        <div class="butt">
-          <button v-if="queryIngredient" type="submit" class="btn btn-light">
-            Add to Mark
-          </button>
-        </div>
-        <SearchIngredient
-          :dataIngredient="x"
-          v-for="x in dataIngredient"
-          :key="x.id"
-        />
-      </form>
+    <div v-if="queryIngredient">
+      <div id="content">
+        <br />
+        <h4 id="C">Search by Ingredient</h4>
+        <form @submit.prevent="marktoDatabase">
+          <div class="butt">
+            <button v-if="queryIngredient" type="submit" class="btn btn-light">
+              Add to Mark
+            </button>
+          </div>
+          <SearchIngredient
+            :dataIngredient="x"
+            v-for="x in dataIngredient"
+            :key="x.id"
+          />
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -118,13 +120,12 @@ export default {
     marktoDatabase() {
       this.data = this.GStore.Keepdata;
       this.GStore.Keepdata = [];
-      console.log("keepdata")
-      console.log(this.GStore.Keepdata)
+      console.log("keepdata");
+      console.log(this.GStore.Keepdata);
       this.data.forEach((element) => {
         Service.MarktoData(element);
       });
-
-      this.$router.push({ name: "MarkProfile" });
+      this.$router.push({ name: 'MarkProfile' });
     },
     searchName() {
       console.log(this.queryName);
